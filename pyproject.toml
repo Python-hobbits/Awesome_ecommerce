@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "maindir"
+version = "0.1.0"
+description = ""
+authors = ["GrazhdanochkaMariya <mariyashakuro@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = "^4.2.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
