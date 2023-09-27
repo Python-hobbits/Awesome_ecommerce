@@ -4,9 +4,14 @@ jobs:
   test_project:
     runs-on: ubuntu-latest # operating system your code will run on
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - run: pip install poetry # install all our dependencies for the project
-      - run: poetry install
-      - run: poetry show
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.10.12
+      - name: Run image
+        uses: abatilo/actions-poetry@v2
+        with:
+          poetry-version: 1.1.15
+      - name: View poetry --help
+        run: poetry --help
       - run: pytest . # run pytest test
