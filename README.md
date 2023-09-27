@@ -1,6 +1,6 @@
 # Awesome e-commerce
 
-Let me speak from the bottle of my heart
+Let me speak from the bottom of my heart
 
 ## Table of Contents
 
