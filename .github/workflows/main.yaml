@@ -36,6 +36,8 @@ jobs:
         run: poetry install --no-interaction --no-root
 
       - name: Run tests
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           source .venv/bin/activate
           ./manage.py test
