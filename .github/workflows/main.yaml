@@ -37,14 +37,12 @@ jobs:
       - name: Install project
         run: poetry install --no-interaction
 
-      - name: Run tests
-        run: |
-          source .venv/bin/activate
-          pytest
+      - name: Run pytest
+        uses: pavelzw/pytest-action@v2
         with:
-              verbose: true
-              emoji: true
-              job-summary: true
-              custom-arguments: '-q'
-              click-to-expand: true
-              report-title: 'Test Report'
+          verbose: true
+          emoji: true
+          job-summary: true
+          custom-arguments: '-q'
+          click-to-expand: false
+          report-title: 'Test Report'
