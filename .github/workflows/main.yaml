@@ -34,15 +34,7 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
 
-      - name: Install project
-        run: poetry install --no-interaction
-
-      - name: Run pytest
-        uses: pavelzw/pytest-action@v2
-        with:
-          verbose: true
-          emoji: true
-          job-summary: true
-          custom-arguments: '-q'
-          click-to-expand: false
-          report-title: 'Test Report'
+      - name: Run tests
+        run: |
+          source .venv/bin/activate
+          pytest
