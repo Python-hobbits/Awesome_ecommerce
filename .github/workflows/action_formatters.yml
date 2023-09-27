@@ -31,11 +31,6 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
-      - name: Check code formatting
-        # uses: psf/black@stable
-        # with:
-        #   options: "--check --verbose"
-        #   src: "./src"
       - name: Sort imports
         run: isort --check .
       - name: Check code style
