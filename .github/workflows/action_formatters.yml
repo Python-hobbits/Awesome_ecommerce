@@ -33,7 +33,8 @@ jobs:
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
       - name: Check code formatting
-        run: black --check .
+        run: |
+          black --check --verbose .
       - name: Sort imports
         run: isort --check .
       - name: Check code style
