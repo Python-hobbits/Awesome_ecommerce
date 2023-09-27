@@ -36,7 +36,7 @@ jobs:
       - name: Black
         uses: psf/black@stable
         with:
-            options: "--check --verbose"
+            options: "--check"
             src: "./src"
 
 
