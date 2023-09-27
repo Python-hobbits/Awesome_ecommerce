@@ -8,7 +8,7 @@ jobs:
     steps:
 
       - name: Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up python
         id: setup-python
@@ -19,6 +19,7 @@ jobs:
       - name: Install Poetry
         uses: snok/install-poetry@v1
         with:
+          poetry-version: '1.5.1'
           virtualenvs-create: true
           virtualenvs-in-project: true
           installer-parallel: true
