@@ -8,4 +8,5 @@ jobs:
       - uses: actions/setup-python@v2
       - run: pip install poetry # install all our dependencies for the project
       - run: poetry install
+      - run: poetry show
       - run: pytest . # run pytest test
