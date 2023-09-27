@@ -1,0 +1,11 @@
+name: test_awesome_ecommerce
+on: [pull_request, push] # activates the workflow when there is a push or pull request in the repo
+jobs:
+  test_project:
+    runs-on: ubuntu-latest # operating system your code will run on
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - run: pip install poetry # install all our dependencies for the project
+      - run: poetry install
+      - run: pytest . # run pytest test
