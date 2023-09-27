@@ -8,6 +8,20 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 django = "^4.2.5"
+black = "^23.7.0"
+isort = "^5.11.4"
+flake8 = "^6.1.0"
+
+
+[tool.black]
+target-version = ['py310']
+include = '\.pyi?$'
+line-length = 100
+
+[tool.isort]
+profile = "black"
+filter_files = true
+line_length = 100
 
 
 [build-system]
