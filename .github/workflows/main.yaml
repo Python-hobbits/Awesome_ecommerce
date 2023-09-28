@@ -5,6 +5,15 @@ on: [pull_request, push]
 jobs:
   test:
     runs-on: ubuntu-latest
+    services:
+      postgres_main:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: github_actions
+        ports:
+          - 5432:5432
     steps:
 
       - name: Check out repository
@@ -34,13 +43,14 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
-
       - name: Run tests
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          DATABASE_HOST: 127.0.0.1
+          DATABASE_PORT: 5432
+          POSTGRES_DB: github_actions
         run: |
           source .venv/bin/activate
           ./manage.py test
