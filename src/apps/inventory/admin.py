@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import Category
-from .models import Product
-
+from src.apps.inventory.models import Category, Product
 
 admin.site.register(Category)
 admin.site.register(Product)
