@@ -3,7 +3,19 @@ from django.db import models
 
 
 class User(AbstractUser):
-    user_profile = models.ForeignKey(
+    class UserType(models.Choices):
+        CUSTOMER = "Customer"
+        SELLER = "Seller"
+        ADMIN = "Admin"
+
+    user_type = models.CharField(
+        verbose_name="User type",
+        max_length=32,
+        choices=UserType.choices,
+        default=UserType.ADMIN,
+    )
+
+    user_profile = models.OneToOneField(
         verbose_name="User type",
         to="user.UserProfile",
         related_name="users",
@@ -17,16 +29,8 @@ class User(AbstractUser):
 
 
 class UserProfile(models.Model):
-    title = models.CharField(
-        verbose_name="Title",
-        max_length=32,
-        blank=False,
-        null=False,
-    )
+    pass
 
     class Meta:
         verbose_name = "User profile"
         verbose_name_plural = "User profiles"
-
-    def __str__(self):
-        return f"{self.title}"
