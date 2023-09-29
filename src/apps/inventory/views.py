@@ -14,5 +14,3 @@ class ProductBySellerListView(ListView):
     def get_queryset(self):
         if self.request.user.is_authenticated:
             return Product.objects.filter(seller=self.request.user)
-        else:
-            return Product.objects.none()

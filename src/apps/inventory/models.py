@@ -22,6 +22,7 @@ class Product(models.Model):
         related_name="products",
         limit_choices_to={"user_type": "Seller"},
     )
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
