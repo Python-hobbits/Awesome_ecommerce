@@ -21,6 +21,7 @@ django-allauth = "^0.57.0"
 target-version = ['py311']
 include = '\.pyi?$'
 line-length = 100
+exclude = "(.eggs|.git|.mypy_cache|migrations)"
 
 [tool.isort]
 profile = "black"
