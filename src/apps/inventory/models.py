@@ -1,6 +1,5 @@
+from django.conf import settings
 from django.db import models
-
-from src.apps.user.models import User
 
 
 class Category(models.Model):
@@ -17,7 +16,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     seller = models.ForeignKey(
-        User,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name="products",
         limit_choices_to={"user_type": "Seller"},
