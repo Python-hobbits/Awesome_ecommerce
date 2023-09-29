@@ -5,3 +5,4 @@ from src.apps.inventory.models import Product
 
 class ProductDetailView(DetailView):
     model = Product
+a = "asssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"
