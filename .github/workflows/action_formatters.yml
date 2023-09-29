@@ -31,11 +31,7 @@ jobs:
       - name: Install dependencies
         if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
         run: poetry install --no-interaction --no-root
-      - name: Black
-        uses: psf/black@stable
-        with:
-            options: "--check"
-            src: "./src"
+
       - name: Ruff
         uses: chartboost/ruff-action@v1
         with:
