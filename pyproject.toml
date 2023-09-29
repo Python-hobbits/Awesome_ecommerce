@@ -12,6 +12,7 @@ psycopg2-binary = "^2.9.7"
 django-environ = "^0.11.2"
 black = "^23.7.0"
 ruff = "^0.0.291"
+pre-commit = "^3.4.0"
 
 [tool.black]
 target-version = ['py311']
