@@ -18,4 +18,5 @@ repos:
     rev: 23.7.0
     hooks:
       - id: black
+        exclude: ^.*\b(migrations)\b.*$
         args: ["--config", "pyproject.toml"]

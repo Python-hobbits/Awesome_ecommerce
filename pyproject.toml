@@ -18,9 +18,17 @@ pre-commit = "^3.4.0"
 target-version = ['py311']
 include = '\.pyi?$'
 line-length = 100
+exclude = '''
+/(
+  | migrations
+)/
+'''
 
 [tool.ruff]
 line-length = 100
+exclude = [
+    "**/migrations/*.py"
+]
 
 [build-system]
 requires = ["poetry-core"]
