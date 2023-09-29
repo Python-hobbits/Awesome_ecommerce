@@ -9,6 +9,7 @@ exclude =
     .tox,
     .eggs,
     *.egg,
-    .venv
-    .env
-    .env*
+    .venv,
+    .env,
+    .env*,
+    *migrations/**,
