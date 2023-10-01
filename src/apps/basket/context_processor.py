@@ -1,5 +1,5 @@
-from src.apps.basket.models import Basket
+from src.apps.basket.basket import Basket
 
 
 def basket(request):
-    return {'basket': Basket(request)}
+    return {"basket": Basket(request)}
