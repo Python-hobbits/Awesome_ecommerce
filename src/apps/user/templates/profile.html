@@ -1,0 +1,13 @@
+
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+  <h1>User Profile Detail</h1>
+
+  <p>Username: {{ user.username }}</p>
+  <p>First Name: {{ user.first_name }}</p>
+  <p>Last Name: {{ user.last_name }}</p>
+  <p>Email: {{ user.email }}</p>
+  <p>type: {{ user.user_type }}</p>
+
+
+{% endblock content %}

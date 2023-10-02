@@ -45,7 +45,7 @@ jobs:
         run: poetry install --no-interaction --no-root
       - name: Run tests
         env:
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          SECRET_KEY: "SECRET_KEY"
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           DATABASE_HOST: 127.0.0.1
@@ -54,4 +54,3 @@ jobs:
         run: |
           source .venv/bin/activate
           ./manage.py test
-

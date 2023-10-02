@@ -1,4 +1,5 @@
 from django.db import models
+
 from src.apps.inventory.models import Product
 
 
