@@ -25,6 +25,7 @@ class CategoryDetailView(DetailView):
 class ProductBySellerListView(ListView):
     model = Product
     paginate_by = 10
+    template_name = "product_list.html"
 
     def get_queryset(self):
         if self.request.user.is_authenticated:

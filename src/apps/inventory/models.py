@@ -42,4 +42,4 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return f"/product/{self.category.slug}/{self.slug}/"  # Adjust the URL structure as needed
+        return f"/products/{self.category.slug}/{self.slug}/"  # Adjust the URL structure as needed
