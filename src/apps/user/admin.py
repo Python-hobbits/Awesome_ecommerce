@@ -6,6 +6,7 @@ from src.apps.user.models import User, UserProfile
 
 class UserAdminExtended(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (("User Type", {"fields": ("user_type",)}),)
+    list_filter = ("user_type",)
 
 
 admin.site.register(User, UserAdminExtended)
