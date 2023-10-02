@@ -1,5 +1,12 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<title>{{object.name}}</title>
+{% endblock meta %}
+
+{% block content %}
 <h1>name: {{ object.name }}</h1>
 <p>description: {{ object.description }}</p>
 <p>category: {{ object.category }}</p>
 <p>price: {{ object.price }}</p>
-
+{% endblock content %}
