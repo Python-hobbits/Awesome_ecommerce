@@ -21,18 +21,3 @@ class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return self.request.user
-
-
-# def user_edit(request):
-#     """
-#     Processes requests for the settings page, where users
-#     can edit their profiles.
-#     """
-#     if request.method == 'POST':
-#         postdata = request.POST.copy()
-#         form = UserChangeForm(postdata)
-#         if form.is_valid():
-#             form.save()
-#     else:
-#         form = UserChangeForm()
-#     return render(request, "user_profile_edit.html", context=RequestContext(request))
