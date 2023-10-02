@@ -14,12 +14,12 @@ from pathlib import Path
 
 import environ
 
-env = environ.Env()
-env_path = os.path.join(os.path.dirname(__file__), "..", "..", ".env")
-environ.Env.read_env(env_file=env_path)
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env(env_file=BASE_DIR.parent / ".env")
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
