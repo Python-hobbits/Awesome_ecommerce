@@ -45,11 +45,14 @@ INSTALLED_APPS = [
     "src.apps.user",
     "src.apps.inventory",
     "src.apps.orders",
+    "src.apps.basket",
     # Third-party
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
 ]
+
+BASKET_SESSION_ID = "basket"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -78,6 +81,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "src.apps.basket.context_processor.basket",
             ],
         },
     },
