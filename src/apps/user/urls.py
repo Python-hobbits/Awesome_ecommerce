@@ -1,6 +1,6 @@
-from django.urls import path, include
+from django.urls import include, path
 
-from src.apps.user.views import profile, UserProfileUpdateView
+from src.apps.user.views import UserProfileUpdateView, profile
 
 urlpatterns = [
     path("", include("allauth.urls")),
