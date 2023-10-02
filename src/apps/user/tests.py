@@ -17,14 +17,14 @@ class UserProfileTests(TestCase):
 
     def test_user_profile_update_view(self):
         self.client.login(username="testuser", password="testpassword")
-        response = self.client.get(reverse("user.user_profile_edit"))
+        response = self.client.get(reverse("user/user_profile_edit"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "user.user_profile_edit.html")
 
     def test_user_profile_update_view_post(self):
         self.client.login(username="testuser", password="testpassword")
         updated_data = {"first_name": "Updated", "last_name": "User"}
-        response = self.client.post(reverse("user.user_profile_edit"), data=updated_data)
+        response = self.client.post(reverse("user/user_profile_edit"), data=updated_data)
         self.assertEqual(response.status_code, 302)
         self.user.refresh_from_db()
         self.assertEqual(self.user.first_name, updated_data["first_name"])
