@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.views.generic import DetailView, ListView
 
 from src.apps.inventory.models import Product, Category
@@ -9,6 +10,12 @@ class ProductDetailView(DetailView):
     template_name = "product_detail.html"
     context_object_name = "product"
     slug_url_kwarg = "product_slug"
+
+    def get_queryset(self):
+        category_slug = self.kwargs.get("category_slug")
+        category = get_object_or_404(Category, slug=category_slug)
+        queryset = Product.objects.filter(category=category)
+        return queryset
 
 
 class CategoryDetailView(DetailView):

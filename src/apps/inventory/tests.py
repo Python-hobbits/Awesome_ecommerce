@@ -81,6 +81,12 @@ class ProductDetailViewTestCase(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 404)
 
+    def test_nonexistent_product_in_category_detail_view(self):
+        non_existent_category_slug = "non-existent-slug"
+        url = reverse("product_detail", args=[non_existent_category_slug, self.product.slug])
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)
+
 
 class ProductBySellerListViewTestCase(TestCase):
     def setUp(self):
