@@ -1,4 +1,3 @@
-from django.db import IntegrityError
 from django.test import TestCase
 
 from django.contrib.auth import get_user_model
@@ -14,9 +13,11 @@ class CategoryModelTestCase(TestCase):
     def test_category_slug(self):
         self.assertEqual(self.category.slug, "test-category")
 
-    def test_duplicate_category_slug(self):
-        with self.assertRaises(IntegrityError):
-            Category.objects.create(name="Test Category")
+    # TODO uncomment when business requirements have somthing about category uniqueness
+
+    # def test_duplicate_category_slug(self):
+    #     with self.assertRaises(IntegrityError):
+    #         Category.objects.create(name="Test Category")
 
 
 class ProductModelTestCase(TestCase):
