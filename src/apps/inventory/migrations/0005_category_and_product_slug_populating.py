@@ -3,19 +3,19 @@
 from django.db import migrations, models
 
 
-def populate_slug_with_id(apps, schema_editor):
+def populate_slug(apps, schema_editor):
     Product = apps.get_model('inventory', 'Product')
     Category = apps.get_model('inventory', 'Category')
 
     for product in Product.objects.all():
-        product.slug = f'product_{product.id}'
+        product.slug = f'{product.name}_{product.id}'
         product.save()
 
     for category in Category.objects.all():
-        category.slug = f'category_{category.id}'
+        category.slug = f'{category.name}_{category.id}'
         category.save()
 
-def reverse_populate_slug_with_id(apps, schema_editor):
+def reverse_populate_slug(apps, schema_editor):
     Product = apps.get_model('inventory', 'Product')
     Category = apps.get_model('inventory', 'Category')
 
@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(populate_slug_with_id, reverse_code=reverse_populate_slug_with_id),
+        migrations.RunPython(populate_slug, reverse_code=reverse_populate_slug),
 
         migrations.AlterField(
             model_name="category",
