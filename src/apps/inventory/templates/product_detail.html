@@ -9,7 +9,6 @@
 <p>description: {{ object.description }}</p>
 <p>category: {{ object.category }}</p>
 <p>price: {{ object.price }}</p>
-
 <form method="post" action="{% url 'basket:basket_add' product.id %}">
         {% csrf_token %}
         <label for="quantity">Quantity:</label>
