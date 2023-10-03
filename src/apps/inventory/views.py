@@ -4,6 +4,8 @@ from django.views.generic import DetailView, ListView
 
 from src.apps.inventory.models import Product, Category
 
+from src.apps.inventory.models import Product, Category
+from django.db.models import Q
 
 class ProductDetailView(DetailView):
     model = Product
@@ -45,3 +47,34 @@ class ProductListView(ListView):
     model = Product
     paginate_by = 10
     template_name = "product_list.html"
+
+
+class CategoryListView(ListView):
+    model = Category
+    context_object_name = 'categories'
+    template_name = 'inventory/categories_list.html'
+
+
+class ProductsByCategoryListView(ListView):
+    model = Product
+    paginate_by = 10
+    template_name = 'inventory/products_by_category_list.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        return Product.objects.filter(category_id=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category = get_object_or_404(Category, pk=self.kwargs['pk'])
+        context['category'] = category
+        return context
+
+
+class ProductsListView(ListView):
+    model = Product
+    template_name = "inventory/search_category.html"
+    context_object_name = 'products'
+
+
+
