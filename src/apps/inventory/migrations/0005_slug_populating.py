@@ -38,16 +38,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="category",
             name="slug",
-            field=autoslug.fields.AutoSlugField(
-                unique=True
-            ),
-            preserve_default=False,
+            field=autoslug.fields.AutoSlugField(editable=False, populate_from="name", unique=True),
         ),
         migrations.AlterField(
             model_name="product",
             name="slug",
-            field=autoslug.fields.AutoSlugField(
-                unique=True
-            ),
+            field=autoslug.fields.AutoSlugField(editable=False, populate_from="name", unique=True),
         ),
     ]
