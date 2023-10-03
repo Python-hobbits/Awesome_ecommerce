@@ -4,9 +4,6 @@ from django.views.generic import DetailView, ListView
 
 from src.apps.inventory.models import Product, Category
 
-from src.apps.inventory.models import Product, Category
-from django.db.models import Q
-
 
 class ProductDetailView(DetailView):
     model = Product
