@@ -19,12 +19,10 @@ def reverse_populate_slug_with_id(apps, schema_editor):
     Product = apps.get_model('inventory', 'Product')
     Category = apps.get_model('inventory', 'Category')
 
-    # Reverse the population of the slug field for Product
     for product in Product.objects.all():
         product.slug = ''
         product.save()
 
-    # Reverse the population of the slug field for Category
     for category in Category.objects.all():
         category.slug = ''
         category.save()
