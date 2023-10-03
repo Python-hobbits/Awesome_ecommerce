@@ -7,7 +7,6 @@ from src.apps.inventory.views import (
     ProductListView,
     CategoryListView,
     ProductsByCategoryListView,
-
 )
 
 urlpatterns = [
@@ -20,5 +19,7 @@ urlpatterns = [
     ),
     path("", ProductListView.as_view(), name="product_list"),
     path("categories/", CategoryListView.as_view(), name="categories_list"),
-    path("category/<int:pk>/", ProductsByCategoryListView.as_view(), name="products_by_category_list"),
+    path(
+        "category/<int:pk>/", ProductsByCategoryListView.as_view(), name="products_by_category_list"
+    ),
 ]
