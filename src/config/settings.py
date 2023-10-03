@@ -70,7 +70,10 @@ ROOT_URLCONF = "src.config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join("src/apps/user", "templates")],
+        "DIRS": [
+            os.path.join("src/apps/user", "templates"),
+            os.path.join("src/apps/inventory", "templates"),
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

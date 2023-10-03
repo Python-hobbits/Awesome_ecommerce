@@ -15,10 +15,6 @@
                 <p>Category: {{ product.category }}</p>
                 <p>Price: ${{ product.price }}</p>
                 <!-- Add more product details as needed -->
-                <form method="post" action="{% url 'basket_add' product.id %}">
-                    {% csrf_token %}
-                    <button type="submit">Add to basket</button>
-                </form>
             </li>
         {% endfor %}
     </ul>
