@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, ListView
 
 from src.apps.inventory.models import Product, Category
@@ -22,7 +23,7 @@ class CategoryDetailView(DetailView):
         return context
 
 
-class ProductBySellerListView(ListView):
+class ProductBySellerListView(LoginRequiredMixin, ListView):
     model = Product
     paginate_by = 10
     template_name = "product_list.html"
