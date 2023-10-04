@@ -1,262 +1,162 @@
 [
-{
-  "model": "user.user",
-  "pk": 1,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$Ic5m5XylPGG7EUsWKYz4lJ$eHV2ieUtkDyUTsqkLnTuHOxlfORRyBOIHa8pE5rOr24=",
-    "last_login": "2023-10-04T07:40:38.072Z",
-    "is_superuser": true,
-    "username": "semen",
-    "first_name": "1232",
-    "last_name": "123",
-    "email": "rusglu03@mail.ru",
-    "is_staff": true,
-    "is_active": true,
-    "date_joined": "2023-09-29T13:01:33.053Z",
-    "user_type": "Admin",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "password": "hashed_password_1",
+      "last_login": "2023-10-04T07:40:38.072Z",
+      "is_superuser": false,
+      "username": "admin_user",
+      "first_name": "Admin",
+      "last_name": "User",
+      "email": "admin@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-09-29T13:01:33.053Z",
+      "user_type": "Admin",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields": {
+      "password": "hashed_password_2",
+      "last_login": "2023-10-04T07:44:34.485Z",
+      "is_superuser": false,
+      "username": "seller_one",
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-09-29T13:02:25Z",
+      "user_type": "Seller",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 3,
+    "fields": {
+      "password": "hashed_password_3",
+      "last_login": "2023-09-29T13:20:16.186Z",
+      "is_superuser": false,
+      "username": "seller_two",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "email": "jane@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-09-29T13:17:51Z",
+      "user_type": "Seller",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 4,
+    "fields": {
+      "password": "hashed_password_4",
+      "last_login": "2023-09-29T14:13:39.171Z",
+      "is_superuser": false,
+      "username": "seller_three",
+      "first_name": "David",
+      "last_name": "Johnson",
+      "email": "david@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-09-29T14:11:02Z",
+      "user_type": "Seller",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 5,
+    "fields": {
+      "password": "hashed_password_5",
+      "last_login": "2023-10-02T07:48:52.224Z",
+      "is_superuser": false,
+      "username": "user_five",
+      "first_name": "Alice",
+      "last_name": "Anderson",
+      "email": "alice@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-02T07:48:13.066Z",
+      "user_type": "Admin",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 6,
+    "fields": {
+      "password": "hashed_password_6",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user_six",
+      "first_name": "Eva",
+      "last_name": "Brown",
+      "email": "eva@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-02T07:54:44.564Z",
+      "user_type": "Admin",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+   {
+    "model": "user.user",
+    "pk": 7,
+    "fields": {
+      "password": "hashed_password_5",
+      "last_login": "2023-10-02T07:48:52.224Z",
+      "is_superuser": false,
+      "username": "user_seven",
+      "first_name": "Alice",
+      "last_name": "Anderson",
+      "email": "alice@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-02T07:48:13.066Z",
+      "user_type": "Customer",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 8,
+    "fields": {
+      "password": "hashed_password_6",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user_eight",
+      "first_name": "Eva",
+      "last_name": "Brown",
+      "email": "eva@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-02T07:54:44.564Z",
+      "user_type": "Customer",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
   }
-},
-{
-  "model": "user.user",
-  "pk": 2,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$zdU5bJQwNGZIO1QuapB1VW$2j8PP81IQJIWkk9fcVoOdNSnpD+Qb377yLsqjpuijOY=",
-    "last_login": "2023-10-04T07:44:34.485Z",
-    "is_superuser": false,
-    "username": "Seller1",
-    "first_name": "seller1",
-    "last_name": "seller1",
-    "email": "seller1@mail.ru",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-09-29T13:02:25Z",
-    "user_type": "Seller",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 3,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$WyZG9GAnAoOfevuzg0Acjk$/pRFIrfPcDt/w1pLZYug8aSeHIw70gsw5UUwCBT2/5U=",
-    "last_login": "2023-09-29T13:20:16.186Z",
-    "is_superuser": false,
-    "username": "seller2",
-    "first_name": "123",
-    "last_name": "123",
-    "email": "123@mail.ru",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-09-29T13:17:51Z",
-    "user_type": "Seller",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 4,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$GUzz3u1Iq3A2zlFmqcSuub$xtvt9N02cwUcEyA1yIfW03UPW8eyKWMraf1+Vn9PNJs=",
-    "last_login": "2023-09-29T14:13:39.171Z",
-    "is_superuser": false,
-    "username": "seller3",
-    "first_name": "",
-    "last_name": "",
-    "email": "",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-09-29T14:11:02Z",
-    "user_type": "Seller",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 5,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$eqOTcCkNszzSZkROzdksmH$by5nzb/NuuR6lJ21sRK41DInXnpFOIWY00cPTQ92KgY=",
-    "last_login": "2023-10-02T07:48:52.224Z",
-    "is_superuser": false,
-    "username": "seeen",
-    "first_name": "",
-    "last_name": "",
-    "email": "rusglu03@mail.ru",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-10-02T07:48:13.066Z",
-    "user_type": "Admin",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 6,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$8CIPXYG6JE1U1DDbvFXdTB$t1+IonrwILtXeGQb2uXVsmfpAYO7BgCt4uCM9fbKetE=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "asdasdasd",
-    "first_name": "",
-    "last_name": "",
-    "email": "qatest6@gmail.com",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-10-02T07:54:44.564Z",
-    "user_type": "Admin",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 7,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$hReVUOh7rerO42aDcZwcvc$yHcRwEVukxBZDSZuC8roCxDEyZxwNhh61FFdiBsglhY=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "sadsdasdasdasd",
-    "first_name": "",
-    "last_name": "",
-    "email": "asdasd@asd.ru",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-10-02T08:23:51.306Z",
-    "user_type": "Admin",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 8,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$GaUMjw3I1GncFJoX7WKDiL$4VdbzWMFPSo+zK68R26O3V1IQyUoke1HxoZ/InH43aQ=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "sadsdasdasdasdas",
-    "first_name": "",
-    "last_name": "",
-    "email": "asdaassd@asd.ru",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-10-02T08:25:57.774Z",
-    "user_type": "CUSTOMER",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 9,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$gcqKJxGdwSSSpISEkV79M7$wZCvU+ucOSLBBXnJ9Us5vLO59hPJ70ZzSURnPE+K07o=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "sadsdasasdasdasdas",
-    "first_name": "",
-    "last_name": "",
-    "email": "asdaassd@asd.ruas",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-10-02T08:27:56.021Z",
-    "user_type": "Customer",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 10,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$tAWqVFvlAm7VYlecxbatvr$JmHDrhi9IswA7HyGp4gzun1YFdhHc+/4zwQ6JkeKe40=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "zxczxc",
-    "first_name": "",
-    "last_name": "",
-    "email": "rusgasdlu03@mail.ru",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-10-02T08:32:28.643Z",
-    "user_type": "Seller",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 11,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$TrDfKUkbalhx91MaeIj8xW$O4xcMO6OFWCmb9XBr6aBNebem6fJLiJmukC7g5r6N0Q=",
-    "last_login": "2023-10-02T08:35:47.243Z",
-    "is_superuser": false,
-    "username": "zxczxcasdas",
-    "first_name": "",
-    "last_name": "",
-    "email": "123rusglu03@mail.ru",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-10-02T08:35:14.991Z",
-    "user_type": "Seller",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 12,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$RmrSQMSlmAdYVV228wYM7C$o5C+kgaAsCN1jiFwPJbYK8sOUQ6v/5N4Rk3PAlVdzjM=",
-    "last_login": null,
-    "is_superuser": false,
-    "username": "semenasd",
-    "first_name": "",
-    "last_name": "",
-    "email": "rusasdglu03@mail.ru",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-10-02T08:36:58.867Z",
-    "user_type": "Seller",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-},
-{
-  "model": "user.user",
-  "pk": 13,
-  "fields": {
-    "password": "pbkdf2_sha256$600000$Qm5sn8BWkifK3hUUwrHbsy$dJQ4B4UdbZ2m5hxjGGIV1ZUIsUsythaw4laq01KT/7Q=",
-    "last_login": "2023-10-02T08:46:06.678Z",
-    "is_superuser": false,
-    "username": "semenasasd",
-    "first_name": "123as",
-    "last_name": "123",
-    "email": "qateasasst6@gmail.com",
-    "is_staff": false,
-    "is_active": true,
-    "date_joined": "2023-10-02T08:46:06.311Z",
-    "user_type": "Seller",
-    "user_profile": null,
-    "groups": [],
-    "user_permissions": []
-  }
-}
 ]

@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "name": "testcategory1",
-    "description": "asdasd",
+    "description": "this is test category 1",
     "slug": "testcategory1_1"
   }
 },
@@ -22,7 +22,7 @@
   "pk": 3,
   "fields": {
     "name": "test category2",
-    "description": "test category2",
+    "description": "this is test category 2",
     "slug": "test-category2_3"
   }
 }
