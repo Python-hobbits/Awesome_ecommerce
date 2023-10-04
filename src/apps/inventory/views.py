@@ -1,7 +1,9 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
-from django.views.generic import DetailView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, CreateView
 
+from src.apps.inventory.forms import ProductForm
 from src.apps.inventory.models import Product, Category
 
 
@@ -45,3 +47,19 @@ class ProductListView(ListView):
     model = Product
     paginate_by = 10
     template_name = "product_list.html"
+
+
+class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Product
+    form_class = ProductForm
+    template_name = "product_create.html"
+    success_url = reverse_lazy(
+        "product_by_seller"
+    )  # Redirect to a success URL (change this to your desired URL)
+
+    def form_valid(self, form):
+        form.instance.seller = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user.user_type == "Seller"

@@ -5,15 +5,17 @@ from src.apps.inventory.views import (
     ProductBySellerListView,
     CategoryDetailView,
     ProductListView,
+    ProductCreateView,
 )
 
 urlpatterns = [
     path("seller/my_products", ProductBySellerListView.as_view(), name="product_by_seller"),
     path("category/<slug:category_slug>/", CategoryDetailView.as_view(), name="category_detail"),
     path(
-        "<slug:category_slug>/<slug:product_slug>/",
+        "product/<slug:category_slug>/<slug:product_slug>/",
         ProductDetailView.as_view(),
         name="product_detail",
     ),
     path("", ProductListView.as_view(), name="product_list"),
+    path("seller/create_product/", ProductCreateView.as_view(), name="product_create"),
 ]

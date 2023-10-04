@@ -105,3 +105,47 @@ class ProductBySellerListViewTestCase(TestCase):
     def test_unauthenticated_user_view(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 302)
+
+
+class ProductCreateViewTestCase(TestCase):
+    def setUp(self):
+        self.user_seller = get_user_model().objects.create_user(
+            username="seller", password="password", user_type="Seller"
+        )
+        self.user_buyer = get_user_model().objects.create_user(
+            username="buyer", password="password", user_type="Buyer"
+        )
+        self.test_category = Category.objects.create(name="Test Category")
+
+    def test_redirect_if_not_logged_in(self):
+        response = self.client.get(reverse("product_create"))
+        self.assertEqual(response.status_code, 302)  # Redirects to login page
+
+    def test_redirect_if_not_seller(self):
+        self.client.login(username="buyer", password="password")
+        response = self.client.get(reverse("product_create"))
+        self.assertEqual(response.status_code, 403)  # Forbidden access
+
+    def test_access_for_seller(self):
+        self.client.login(username="seller", password="password")
+        response = self.client.get(reverse("product_create"))
+        self.assertEqual(response.status_code, 200)
+
+    def test_form_valid(self):
+        self.client.login(username="seller", password="password")
+        data = {
+            "name": "Test Product",
+            "description": "This is a test product",
+            "category": self.test_category.id,
+            "price": 10.99,
+        }
+        response = self.client.post(reverse("product_create"), data)
+        self.assertEqual(response.status_code, 302)
+        self.assertTrue(Product.objects.filter(name="Test Product").exists())
+
+    def test_form_invalid(self):
+        self.client.login(username="seller", password="password")
+        data = {}  # Missing required form fields
+        response = self.client.post(reverse("product_create"), data)
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Product.objects.filter(name="Test Product").exists())
