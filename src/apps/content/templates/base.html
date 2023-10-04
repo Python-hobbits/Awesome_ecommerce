@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="en">
 <head>
+    {% load bootstrap5 %}
+    {% bootstrap_javascript %}
+    {% bootstrap_css %}
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -8,16 +11,9 @@
     {% block meta %}
     <title>Awesome ecommerce</title>
     {% endblock meta %}
+
 </head>
 <body>
-    {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}!</p>
-        <a href="{% url 'account_logout' %}">Logout</a>
-        <a href="{% url 'user_profile' %}">Profile</a>
-    {% else %}
-        <a href="{% url 'account_login' %}">Login</a>
-        <a href="{% url 'account_signup' %}">Sign Up</a>
-    {% endif %}
     {% block header %}
     {% include "includes/header.html" %}
     {% endblock header %}

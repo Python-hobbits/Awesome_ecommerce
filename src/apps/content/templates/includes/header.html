@@ -1,3 +1,11 @@
 <header>
-    <a href="{% url 'index' %}">Awesome ecommerce</a>
+    <a href="{% url 'index' %}">Awesome ecommerce</a><br><br>
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        <a href="{% url 'account_logout' %}">Logout</a>
+        <a href="{% url 'user_profile' %}">Profile</a>
+    {% else %}
+        <a href="{% url 'account_login' %}">Login</a>
+        <a href="{% url 'account_signup' %}">Sign Up</a>
+    {% endif %}
 </header>
