@@ -1,0 +1,22 @@
+[
+{
+  "model": "orders.orderproduct",
+  "pk": 1,
+  "fields": {
+    "order": 1,
+    "product_id": 3,
+    "product_price": "10.00",
+    "quantity": 2
+  }
+},
+{
+  "model": "orders.orderproduct",
+  "pk": 2,
+  "fields": {
+    "order": 2,
+    "product_id": 1,
+    "product_price": "12.00",
+    "quantity": 35
+  }
+}
+]

@@ -1,0 +1,20 @@
+[
+{
+  "model": "orders.order",
+  "pk": 1,
+  "fields": {
+    "user_id": 1,
+    "user_name": "asdas",
+    "user_email": "asdas@gmail.com"
+  }
+},
+{
+  "model": "orders.order",
+  "pk": 2,
+  "fields": {
+    "user_id": 2,
+    "user_name": "asdas",
+    "user_email": "asdsas@gmail.com"
+  }
+}
+]

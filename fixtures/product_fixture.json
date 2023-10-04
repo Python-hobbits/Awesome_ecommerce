@@ -1,0 +1,171 @@
+[
+{
+  "model": "inventory.product",
+  "pk": 1,
+  "fields": {
+    "name": "testproduct1",
+    "description": "asdasd",
+    "category": 1,
+    "price": "10.00",
+    "seller": 2,
+    "created_at": "2023-09-29T13:40:42.318Z",
+    "slug": "testproduct1_1"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 2,
+  "fields": {
+    "name": "testproduct 2",
+    "description": "asd",
+    "category": 1,
+    "price": "20.00",
+    "seller": 2,
+    "created_at": "2023-09-29T13:40:42.318Z",
+    "slug": "testproduct-2_2"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 3,
+  "fields": {
+    "name": "Semn",
+    "description": "asdasd",
+    "category": 1,
+    "price": "30.00",
+    "seller": 3,
+    "created_at": "2023-09-29T13:40:42.318Z",
+    "slug": "semn_3"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 4,
+  "fields": {
+    "name": "test",
+    "description": "asd",
+    "category": 1,
+    "price": "12.00",
+    "seller": 2,
+    "created_at": "2023-09-29T14:12:57.207Z",
+    "slug": "test_4"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 5,
+  "fields": {
+    "name": "123",
+    "description": "asd",
+    "category": 1,
+    "price": "13.00",
+    "seller": 4,
+    "created_at": "2023-09-29T14:13:12.461Z",
+    "slug": "123_5"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 37,
+  "fields": {
+    "name": "testproduct1",
+    "description": "sdasdasd",
+    "category": 3,
+    "price": "10.00",
+    "seller": 2,
+    "created_at": "2023-10-03T10:11:43.597Z",
+    "slug": "testproduct1_37"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 38,
+  "fields": {
+    "name": "testproduct1",
+    "description": "sasdasd",
+    "category": 2,
+    "price": "10.00",
+    "seller": 2,
+    "created_at": "2023-10-03T10:39:19.567Z",
+    "slug": "testproduct1_38"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 39,
+  "fields": {
+    "name": "testproduct1",
+    "description": "sadasd",
+    "category": 3,
+    "price": "10.00",
+    "seller": 3,
+    "created_at": "2023-10-03T10:39:55.302Z",
+    "slug": "testproduct1_39"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 41,
+  "fields": {
+    "name": "testproduct1",
+    "description": "1231231",
+    "category": 1,
+    "price": "10.00",
+    "seller": 2,
+    "created_at": "2023-10-04T07:39:21.356Z",
+    "slug": "testproduct1"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 42,
+  "fields": {
+    "name": "testproduct12",
+    "description": "123123112",
+    "category": 1,
+    "price": "10.00",
+    "seller": 2,
+    "created_at": "2023-10-04T07:39:30.125Z",
+    "slug": "testproduct12"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 43,
+  "fields": {
+    "name": "12",
+    "description": "12",
+    "category": 2,
+    "price": "12.00",
+    "seller": 1,
+    "created_at": "2023-10-04T07:40:46.840Z",
+    "slug": "12"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 44,
+  "fields": {
+    "name": "12",
+    "description": "sadas",
+    "category": 1,
+    "price": "21.00",
+    "seller": 13,
+    "created_at": "2023-10-04T07:42:54.795Z",
+    "slug": "12-2"
+  }
+},
+{
+  "model": "inventory.product",
+  "pk": 45,
+  "fields": {
+    "name": "finale",
+    "description": "asdasasddasd",
+    "category": 1,
+    "price": "30.00",
+    "seller": 2,
+    "created_at": "2023-10-04T07:45:05.513Z",
+    "slug": "finale"
+  }
+}
+]

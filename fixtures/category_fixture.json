@@ -1,0 +1,29 @@
+[
+{
+  "model": "inventory.category",
+  "pk": 1,
+  "fields": {
+    "name": "testcategory1",
+    "description": "asdasd",
+    "slug": "testcategory1_1"
+  }
+},
+{
+  "model": "inventory.category",
+  "pk": 2,
+  "fields": {
+    "name": "books",
+    "description": "hahahaha books",
+    "slug": "books_2"
+  }
+},
+{
+  "model": "inventory.category",
+  "pk": 3,
+  "fields": {
+    "name": "test category2",
+    "description": "test category2",
+    "slug": "test-category2_3"
+  }
+}
+]
