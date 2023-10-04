@@ -1,4 +1,8 @@
+{% extends "base.html" %}
 
+{% block meta %}
+<title>Edit User Profile</title>
+{% endblock meta %}
 
 {% block content %}
   <h1>Edit User Profile</h1>
@@ -8,5 +12,4 @@
     {{ form.as_p }}
     <button type="submit">Save Changes</button>
   </form>
-
 {% endblock %}

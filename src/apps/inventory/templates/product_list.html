@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block meta %}
+<title>Product List</title>
+{% endblock meta %}
+
+{% block content %}
     <h1>Product List</h1>
     <ul>
         {% for product in product_list %}
@@ -18,5 +17,4 @@
             </li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock content %}

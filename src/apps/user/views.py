@@ -7,7 +7,7 @@ from src.apps.user.forms import CustomUserChangeForm
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
-    template_name = "profile.html"
+    template_name = "user/profile.html"
     form_class = CustomUserChangeForm
     success_url = reverse_lazy("user_profile")
 
@@ -18,7 +18,7 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     form_class = CustomUserChangeForm
-    template_name = "user_profile_edit.html"
+    template_name = "user/user_profile_edit.html"
     success_url = reverse_lazy("user_profile")
 
     def get_object(self, queryset=None):

@@ -13,13 +13,13 @@ class UserProfileTests(TestCase):
         self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("user_profile"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "profile.html")
+        self.assertTemplateUsed(response, "user/profile.html")
 
     def test_user_profile_update_view(self):
         self.client.login(username="testuser", password="testpassword")
         response = self.client.get(reverse("user_profile_edit"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "user_profile_edit.html")
+        self.assertTemplateUsed(response, "user/user_profile_edit.html")
 
     def test_user_profile_update_view_post(self):
         self.client.login(username="testuser", password="testpassword")

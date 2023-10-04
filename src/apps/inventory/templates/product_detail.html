@@ -1,3 +1,10 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<title>{{object.name}}</title>
+{% endblock meta %}
+
+{% block content %}
 <h1>name: {{ object.name }}</h1>
 <p>description: {{ object.description }}</p>
 <p>category: {{ object.category }}</p>
@@ -8,3 +15,4 @@
         <input type="number" name="quantity" id="quantity" min="1" value="1">
         <input type="submit" value="Add to Cart">
 </form>
+{% endblock content %}
