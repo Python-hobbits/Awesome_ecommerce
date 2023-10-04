@@ -10,11 +10,15 @@
     {% endblock meta %}
 </head>
 <body>
-    {% block header %}{% endblock header %}
+    {% block header %}
+    {% include "includes/header.html" %}
+    {% endblock header %}
 
     {% block content %}{% endblock content %}
 
-    {% block footer %}{% endblock footer %}
+    {% block footer %}
+    {% include "includes/footer.html" %}
+    {% endblock footer %}
 </body>
 </html>
 
