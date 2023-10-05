@@ -14,7 +14,6 @@ from pathlib import Path
 
 import environ
 
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -75,6 +74,7 @@ TEMPLATES = [
             os.path.join(BASE_DIR, "apps/content/templates"),
             os.path.join(BASE_DIR, "apps/inventory/templates"),
             os.path.join(BASE_DIR, "apps/user/templates"),
+            os.path.join(BASE_DIR, "apps/basket/templates"),
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -141,6 +141,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static"
+
+STATICFILES_DIRS = [BASE_DIR / "static/bootstrap"]
+
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 ACCOUNT_EMAIL_VERIFICATION = "none"
 # Default primary key field type
