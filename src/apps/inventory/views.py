@@ -35,7 +35,7 @@ class CategoryDetailView(DetailView):
 class ProductBySellerListView(LoginRequiredMixin, ListView):
     model = Product
     paginate_by = 10
-    template_name = "product_list.html"
+    template_name = "product_by_seller_list.html"
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -47,7 +47,6 @@ class ProductListView(ListView):
     model = Product
     template_name = "product_list.html"
     context_object_name = "products"
-    paginate_by = 10
 
     def get_queryset(self):
         queryset = Product.objects.all()
@@ -64,6 +63,16 @@ class ProductListView(ListView):
                 max_price = filter_form.cleaned_data.get("max_price")
                 if min_price is not None and max_price is not None:
                     queryset = queryset.filter(price__range=(min_price, max_price))
+                order_by = self.request.GET.get("order_by")
+                if order_by:
+                    if order_by == "name":
+                        queryset = queryset.order_by("name")
+                    elif order_by == "-name":
+                        queryset = queryset.order_by("-name")
+                    elif order_by == "price":
+                        queryset = queryset.order_by("price")
+                    elif order_by == "-price":
+                        queryset = queryset.order_by("-price")
 
         return queryset
 

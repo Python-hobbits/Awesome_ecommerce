@@ -9,8 +9,20 @@
     <button type="submit">Apply Filters</button>
   </form>
 
+  <form method="get" class="ordering-form">
+    <label for="order_by">Order by:</label>
+    <select id="order_by" name="order_by">
+      <option value="">None</option>
+      <option value="name">Name (A-Z)</option>
+      <option value="-name">Name (Z-A)</option>
+      <option value="price">Price (Low to High)</option>
+      <option value="-price">Price (High to Low)</option>
+    </select>
+    <button type="submit">Apply Order</button>
+  </form>
+
   <div class="product-list">
-    {% for product in object_list %}
+    {% for product in products %}
       <div class="product-card">
         <h2><a href="{% url 'product_detail' product.category.slug product.slug %}">{{ product.name }}</a></h2>
         <p>Category: {{ product.category.name }}</p>
@@ -22,21 +34,4 @@
     {% endfor %}
   </div>
 
-  <div class="pagination">
-    <span class="step-links">
-      {% if object_list.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ object_list.previous_page_number }}">previous</a>
-      {% endif %}
-
-      <span class="current-page">
-        Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
-      </span>
-
-      {% if object_list.has_next %}
-        <a href="?page={{ object_list.next_page_number }}">next</a>
-        <a href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
-      {% endif %}
-    </span>
-  </div>
 {% endblock %}
