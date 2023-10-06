@@ -1,21 +1,24 @@
     <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+        <div class="col-md-3 mb-2 mb-md-0">
+          <a href="{% url 'index' %}" class="fs-4">Awesome ecommerce</a>
+        </div>
 
         <div class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <a href="{% url 'index' %}" class="navbar-brand">Awesome ecommerce</a><br><br>
+
         </div>
-                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
           <input type="search" class="form-control form-control-light text-bg-light" placeholder="Search..." aria-label="Search">
-                </form>
+            </form>
             {% if user.is_authenticated %}
              <div class="col-md-3 text-end">
-                <p>Welcome, {{ user.username }}!</p>
-                <a href="{% url 'account_logout' %}" class="btn btn-outline-danger">Logout</a>
-                <a href="{% url 'user_profile' %}" class="btn btn-outline-primary">Profile</a>
+                 <a href="{% url 'user_profile' %}" class="btn btn-outline-primary">Profile</a>
+                 <a href="{% url 'product_list' %}" class="btn btn-outline-primary">View Products</a>
+                 <a href="{% url 'account_logout' %}" class="btn btn-primary">Logout</a>
              </div>
             {% else %}
              <div class="col-md-3 text-end">
-                <a href="{% url 'account_login' %}" class="btn btn-outline-primary">Login</a>
-                <a href="{% url 'account_signup' %}" class="btn btn-outline-primary">Sign Up</a>
+                <a href="{% url 'account_login' %}?next=/" class="btn btn-primary">Login</a>
+                <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
             {% endif %}
-        </div>
+             </div>
 </header>
