@@ -1,0 +1,162 @@
+[
+  {
+    "model": "user.user",
+    "pk": 1,
+    "fields": {
+      "password": "hashed_password_1",
+      "last_login": "2023-10-04T07:40:38.072Z",
+      "is_superuser": false,
+      "username": "admin_user",
+      "first_name": "Admin",
+      "last_name": "User",
+      "email": "admin@example.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2023-09-29T13:01:33.053Z",
+      "user_type": "Admin",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 2,
+    "fields": {
+      "password": "hashed_password_2",
+      "last_login": "2023-10-04T07:44:34.485Z",
+      "is_superuser": false,
+      "username": "seller_one",
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-09-29T13:02:25Z",
+      "user_type": "Seller",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 3,
+    "fields": {
+      "password": "hashed_password_3",
+      "last_login": "2023-09-29T13:20:16.186Z",
+      "is_superuser": false,
+      "username": "seller_two",
+      "first_name": "Jane",
+      "last_name": "Smith",
+      "email": "jane@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-09-29T13:17:51Z",
+      "user_type": "Seller",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 4,
+    "fields": {
+      "password": "hashed_password_4",
+      "last_login": "2023-09-29T14:13:39.171Z",
+      "is_superuser": false,
+      "username": "seller_three",
+      "first_name": "David",
+      "last_name": "Johnson",
+      "email": "david@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-09-29T14:11:02Z",
+      "user_type": "Seller",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 5,
+    "fields": {
+      "password": "hashed_password_5",
+      "last_login": "2023-10-02T07:48:52.224Z",
+      "is_superuser": false,
+      "username": "user_five",
+      "first_name": "Alice",
+      "last_name": "Anderson",
+      "email": "alice@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-02T07:48:13.066Z",
+      "user_type": "Admin",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 6,
+    "fields": {
+      "password": "hashed_password_6",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user_six",
+      "first_name": "Eva",
+      "last_name": "Brown",
+      "email": "eva@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-02T07:54:44.564Z",
+      "user_type": "Admin",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+   {
+    "model": "user.user",
+    "pk": 7,
+    "fields": {
+      "password": "hashed_password_5",
+      "last_login": "2023-10-02T07:48:52.224Z",
+      "is_superuser": false,
+      "username": "user_seven",
+      "first_name": "Alice",
+      "last_name": "Anderson",
+      "email": "alice@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-02T07:48:13.066Z",
+      "user_type": "Customer",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "user.user",
+    "pk": 8,
+    "fields": {
+      "password": "hashed_password_6",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "user_eight",
+      "first_name": "Eva",
+      "last_name": "Brown",
+      "email": "eva@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2023-10-02T07:54:44.564Z",
+      "user_type": "Customer",
+      "user_profile": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

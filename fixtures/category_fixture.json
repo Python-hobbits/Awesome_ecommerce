@@ -1,0 +1,29 @@
+[
+{
+  "model": "inventory.category",
+  "pk": 1,
+  "fields": {
+    "name": "Laptops",
+    "description": "Explore our selection of cutting-edge laptops designed to enhance your productivity and entertainment.",
+    "slug": "laptops_category_1"
+  }
+},
+{
+  "model": "inventory.category",
+  "pk": 2,
+  "fields": {
+    "name": "books",
+    "description": "Immerse yourself in the world of literature with our wide range of books spanning various genres.",
+    "slug": "books_2"
+  }
+},
+{
+  "model": "inventory.category",
+  "pk": 3,
+  "fields": {
+    "name": "Kitchen stuff",
+    "description": "Discover essential kitchen items and gadgets to make cooking a breeze in this comprehensive category.",
+    "slug": "kitchen-stuff_category_3"
+  }
+}
+]
