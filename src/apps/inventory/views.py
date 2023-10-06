@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView
 
-from src.apps.inventory.forms import ProductForm
+from src.apps.inventory.forms import ProductForm, ProductFilterForm
 from src.apps.inventory.models import Product, Category
 
 
@@ -45,8 +45,32 @@ class ProductBySellerListView(LoginRequiredMixin, ListView):
 
 class ProductListView(ListView):
     model = Product
-    paginate_by = 10
     template_name = "product_list.html"
+    context_object_name = "products"
+    paginate_by = 10
+
+    def get_queryset(self):
+        queryset = Product.objects.all()
+        if self.request.GET:
+            filter_form = ProductFilterForm(self.request.GET)
+            if filter_form.is_valid():
+                name_query = filter_form.cleaned_data.get("name")
+                if name_query:
+                    queryset = queryset.filter(name__icontains=name_query)
+                category = filter_form.cleaned_data.get("category")
+                if category:
+                    queryset = queryset.filter(category=category)
+                min_price = filter_form.cleaned_data.get("min_price")
+                max_price = filter_form.cleaned_data.get("max_price")
+                if min_price is not None and max_price is not None:
+                    queryset = queryset.filter(price__range=(min_price, max_price))
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter_form"] = ProductFilterForm(self.request.GET)
+        return context
 
 
 class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):

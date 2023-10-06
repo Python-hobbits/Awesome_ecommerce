@@ -1,20 +1,42 @@
-{% extends "base.html" %}
-
-{% block meta %}
-<title>Product List</title>
-{% endblock meta %}
+{% extends 'base.html' %}
 
 {% block content %}
-    <h1>Product List</h1>
-    <ul>
-        {% for product in product_list %}
-            <li>
-                <h2>{{ product.name }}</h2>
-                <p>Description: {{ product.description }}</p>
-                <p>Category: {{ product.category }}</p>
-                <p>Price: ${{ product.price }}</p>
-                <!-- Add more product details as needed -->
-            </li>
-        {% endfor %}
-    </ul>
-{% endblock content %}
+  <h1>Product List</h1>
+
+  <form method="get" class="filter-form">
+    {% csrf_token %}
+    {{ filter_form.as_p }}
+    <button type="submit">Apply Filters</button>
+  </form>
+
+  <div class="product-list">
+    {% for product in object_list %}
+      <div class="product-card">
+        <h2><a href="{% url 'product_detail' product.category.slug product.slug %}">{{ product.name }}</a></h2>
+        <p>Category: {{ product.category.name }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <p>Seller: {{ product.seller.username }}</p>
+      </div>
+    {% empty %}
+      <p>No products found.</p>
+    {% endfor %}
+  </div>
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if object_list.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ object_list.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current-page">
+        Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+      </span>
+
+      {% if object_list.has_next %}
+        <a href="?page={{ object_list.next_page_number }}">next</a>
+        <a href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+{% endblock %}
