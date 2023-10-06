@@ -11,3 +11,7 @@ class AboutUsView(TemplateView):
 
 class DeliveryView(TemplateView):
     template_name = "support/delivery.html"
+
+
+class TermsAndConditionsView(TemplateView):
+    template_name = "support/terms_and_conditions.html"
