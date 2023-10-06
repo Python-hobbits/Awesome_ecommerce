@@ -16,14 +16,3 @@ class ProductFilterForm(forms.Form):
     )
     min_price = forms.DecimalField(label="Minimum Price", required=False)
     max_price = forms.DecimalField(label="Maximum Price", required=False)
-    order_by = forms.ChoiceField(
-        label="Order by",
-        choices=[
-            ("", "None"),
-            ("name", "Name (A-Z)"),
-            ("-name", "Name (Z-A)"),
-            ("price", "Price (Low to High)"),
-            ("-price", "Price (High to Low)"),
-        ],
-        required=False,
-    )

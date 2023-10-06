@@ -65,13 +65,10 @@ class ProductListView(ListView):
                     queryset = queryset.filter(price__range=(min_price, max_price))
                 order_by = self.request.GET.get("order_by")
                 if order_by:
-                    if order_by == "name":
-                        queryset = queryset.order_by("name")
-                    elif order_by == "-name":
-                        queryset = queryset.order_by("-name")
-                    elif order_by == "price":
-                        queryset = queryset.order_by("price")
-                    elif order_by == "-price":
+                    allowed_ordering_fields = ["name", "-name", "price", "-price"]
+                    if order_by in allowed_ordering_fields:
+                        queryset = queryset.order_by(order_by)
+                    else:
                         queryset = queryset.order_by("-price")
 
         return queryset
