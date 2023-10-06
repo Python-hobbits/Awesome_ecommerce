@@ -49,7 +49,6 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    "bootstrap5",
 ]
 
 BASKET_SESSION_ID = "basket"
