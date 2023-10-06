@@ -12,6 +12,8 @@
   <p>Last Name: {{ user.last_name }}</p>
   <p>Email: {{ user.email }}</p>
   <p>type: {{ user.user_type }}</p>
+  <a href="{% url 'user_profile_edit' %}" class="btn btn-outline-primary">Edit Profile</a>
+
 
 
 {% endblock content %}

@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+{% extends "base.html" %}
+
+{% block meta %}
     <meta charset="UTF-8">
     <title>{{ category.name }} - Category Detail</title>
-</head>
-<body>
+{% endblock meta %}
+
+{% block content %}
     <h1>Category: {{ category.name }}</h1>
 
     <p>Description: {{ category.description }}</p>
@@ -17,5 +18,4 @@
             <li>No products in this category.</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock content %}

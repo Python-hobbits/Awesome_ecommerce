@@ -1,36 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Basket</title>
-</head>
-<body>
-    <h1>Basket</h1>
+{% extends "base.html" %}
 
-    <table>
-        <tbody>
-            {% for item in basket %}
-                <tr>
-                    <td>Name: {{ item.product.name }}</td>
-                    <td>Quantity: {{ item.quantity }}</td>
-                    <td>Price: {{ item.product.price }}</td>
-                    <td>Total price: {{ item.total_price }}</td>
-                    <td>
-                        <form method="post" action="{% url 'basket:basket_add' item.product.id %}">
-                            {% csrf_token %}
-                            <input type="number" name="quantity" value="1">
-                            <button type="submit">Add</button>
-                        </form>
-                        <form method="post" action="{% url 'basket:basket_remove' item.product.id %}">
-                            {% csrf_token %}
-                            <button type="submit">Remove</button>
-                        </form>
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+{% block meta %}
+<title>Basket</title>
+{% endblock meta %}
 
-    <p>Total_price: {{ basket.get_total_price }}</p>
+{% block content %}
+<h1>Basket</h1>
 
-</body>
-</html>
+<table>
+    <tbody>
+        {% for item in basket %}
+            <tr>
+                <td>Name: {{ item.product.name }}</td>
+                <td>Quantity: {{ item.quantity }}</td>
+                <td>Price: {{ item.product.price }}</td>
+                <td>Total price: {{ item.total_price }}</td>
+                <td>
+                    <form method="post" action="{% url 'basket:basket_add' item.product.id %}">
+                        {% csrf_token %}
+                        <input type="number" name="quantity" value="1">
+                        <button type="submit">Add</button>
+                    </form>
+                    <form method="post" action="{% url 'basket:basket_remove' item.product.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Remove</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>Total_price: {{ basket.get_total_price }}</p>
+{% endblock content %}
