@@ -9,15 +9,15 @@
     <title>Awesome ecommerce</title>
     {% endblock meta %}
 
+
 </head>
 <body class="container">
     <div>
         {% block header %}
         {% include "includes/header.html" %}
         {% endblock header %}
-
+        {% block title %} {% endblock %}
         {% block content %}{% endblock content %}
-
         {% block footer %}
         {% include "includes/footer.html" %}
         {% endblock footer %}
