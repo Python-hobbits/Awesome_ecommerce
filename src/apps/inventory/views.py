@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView
-from django_filters import FilterSet, CharFilter, NumberFilter, ModelChoiceFilter
+from django_filters import FilterSet, CharFilter, ModelChoiceFilter
 from src.apps.inventory.forms import ProductForm
 from src.apps.inventory.models import Product, Category
 
@@ -48,8 +48,12 @@ class ProductFilter(FilterSet):
     category = ModelChoiceFilter(
         field_name="category", queryset=Category.objects.all(), label="Category"
     )
-    min_price = NumberFilter(field_name="price", lookup_expr="gte", label="Min Price")
-    max_price = NumberFilter(field_name="price", lookup_expr="lte", label="Max Price")
+
+    class Meta:
+        model = Product
+        fields = {
+            "price": ["lt", "gt"],
+        }
 
 
 class ProductListView(ListView):
@@ -74,10 +78,10 @@ class ProductListView(ListView):
 
         return queryset
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["filter_form"] = ProductFilterForm(self.request.GET)
-    #     return context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter"] = self.filterset_class(self.request.GET)
+        return context
 
 
 class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
