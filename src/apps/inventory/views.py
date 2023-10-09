@@ -2,8 +2,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import DetailView, ListView, CreateView
-
-from src.apps.inventory.forms import ProductForm, ProductFilterForm
+from django_filters import FilterSet, CharFilter, NumberFilter, ModelChoiceFilter
+from src.apps.inventory.forms import ProductForm
 from src.apps.inventory.models import Product, Category
 
 
@@ -43,40 +43,41 @@ class ProductBySellerListView(LoginRequiredMixin, ListView):
         return Product.objects.none()
 
 
+class ProductFilter(FilterSet):
+    name = CharFilter(field_name="name", lookup_expr="icontains", label="Name contains")
+    category = ModelChoiceFilter(
+        field_name="category", queryset=Category.objects.all(), label="Category"
+    )
+    min_price = NumberFilter(field_name="price", lookup_expr="gte", label="Min Price")
+    max_price = NumberFilter(field_name="price", lookup_expr="lte", label="Max Price")
+
+
 class ProductListView(ListView):
     model = Product
     template_name = "product_list.html"
     context_object_name = "products"
+    filterset_class = ProductFilter
 
     def get_queryset(self):
-        queryset = Product.objects.all()
+        queryset = super().get_queryset()
+
         if self.request.GET:
-            filter_form = ProductFilterForm(self.request.GET)
-            if filter_form.is_valid():
-                name_query = filter_form.cleaned_data.get("name")
-                if name_query:
-                    queryset = queryset.filter(name__icontains=name_query)
-                category = filter_form.cleaned_data.get("category")
-                if category:
-                    queryset = queryset.filter(category=category)
-                min_price = filter_form.cleaned_data.get("min_price")
-                max_price = filter_form.cleaned_data.get("max_price")
-                if min_price is not None and max_price is not None:
-                    queryset = queryset.filter(price__range=(min_price, max_price))
-                order_by = self.request.GET.get("order_by")
-                if order_by:
-                    allowed_ordering_fields = ["name", "-name", "price", "-price"]
-                    if order_by in allowed_ordering_fields:
-                        queryset = queryset.order_by(order_by)
-                    else:
-                        queryset = queryset.order_by("-price")
+            queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
+
+            order_by = self.request.GET.get("order_by")
+            if order_by:
+                allowed_ordering_fields = ["name", "-name", "price", "-price"]
+                if order_by in allowed_ordering_fields:
+                    queryset = queryset.order_by(order_by)
+                else:
+                    queryset = queryset.order_by("-price")
 
         return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["filter_form"] = ProductFilterForm(self.request.GET)
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context["filter_form"] = ProductFilterForm(self.request.GET)
+    #     return context
 
 
 class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):

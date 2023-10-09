@@ -3,9 +3,8 @@
 {% block content %}
   <h1>Product List</h1>
 
-  <form method="get" class="filter-form">
-    {% csrf_token %}
-    {{ filter_form.as_p }}
+  <form method="get">
+    {{ products.form.as_p }}
     <button type="submit">Apply Filters</button>
   </form>
 
