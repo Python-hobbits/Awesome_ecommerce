@@ -32,4 +32,10 @@
 </table>
 
 <p>Total_price: {{ basket.get_total_price }}</p>
+
+<form method="post" action="{% url 'checkout' %}">
+    {% csrf_token %}
+    <button type="submit">Checkout</button>
+</form>
+
 {% endblock content %}

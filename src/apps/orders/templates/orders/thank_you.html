@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block meta %}
+    <title>Thank You</title>
+{% endblock meta %}
+
+{% block content %}
+    <h1>Thank You for Your Order!</h1>
+
+    <p>Your order summary:</p>
+
+    <ul>
+        <li><strong>Order ID:</strong> {{ order.id }}</li>
+        <li><strong>User Name:</strong> {{ order.user_name }}</li>
+        <li><strong>User Email:</strong> {{ order.user_email }}</li>
+    </ul>
+
+    <p>Products in your order:</p>
+
+    <ul>
+        {% for order_product in order.orderproduct_set.all %}
+            <li>
+                <strong>{{ order_product.product.name }}</strong>
+                - Quantity: {{ order_product.quantity }}
+                - Price: ${{ order_product.product_price }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <p>Total Price: ${{ total_price }}</p>
+
+{% endblock content %}

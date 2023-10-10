@@ -9,7 +9,7 @@
     <ul>
         {% for product in product_list %}
             <li>
-                <h2>{{ product.name }}</h2>
+                <h2><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h2>
                 <p>Description: {{ product.description }}</p>
                 <p>Category: {{ product.category }}</p>
                 <p>Price: ${{ product.price }}</p>

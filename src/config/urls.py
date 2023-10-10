@@ -23,4 +23,5 @@ urlpatterns = [
     path("accounts/", include("src.apps.user.urls")),
     path("basket/", include("src.apps.basket.urls")),
     path("products/", include("src.apps.inventory.urls")),
+    path("checkout/", include("src.apps.orders.urls"))
 ]
