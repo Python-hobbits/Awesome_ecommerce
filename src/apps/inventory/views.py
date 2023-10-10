@@ -1,11 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView, UpdateView
 
-from django.views.generic import DetailView, ListView, CreateView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter
-from django.views.generic import DetailView, ListView, CreateView, UpdateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
 from src.apps.inventory.forms import ProductForm
 from src.apps.inventory.models import Product, Category
@@ -106,6 +105,7 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     fields = ["name", "description", "category", "price"]
     template_name = "product_edit.html"
+    success_url = reverse_lazy("product_by_seller")
 
     def get_queryset(self):
         category_slug = self.kwargs.get("category_slug")
@@ -114,3 +114,26 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         queryset = Product.objects.filter(category__slug=category_slug, slug=product_slug)
 
         return queryset
+
+    def is_seller(self):
+        return (
+            self.request.user.user_type == "Seller"
+            and self.request.user == self.get_object().seller
+        )
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
+    model = Product
+    success_url = reverse_lazy("product_by_seller")
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+    def is_seller(self):
+        return (
+            self.request.user.user_type == "Seller"
+            and self.request.user == self.get_object().seller
+        )

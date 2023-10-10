@@ -13,7 +13,8 @@
                 <p>Description: {{ product.description }}</p>
                 <p>Category: {{ product.category }}</p>
                 <p>Price: ${{ product.price }}</p>
-                <!-- Add more product details as needed -->
+                <a href="{% url 'product_edit' pk=product.pk category_slug=product.category.slug product_slug=product.slug %}" class="btn btn-outline-primary">Edit</a>
+                <a href="{% url 'product_delete' pk=product.pk category_slug=product.category.slug product_slug=product.slug %}" class="btn btn-outline-danger">Delete</a>
             </li>
         {% endfor %}
     </ul>
