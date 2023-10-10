@@ -142,7 +142,7 @@ USE_TZ = True
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "static"
 
-STATICFILES_DIRS = [BASE_DIR / "static/bootstrap"]
+STATICFILES_DIRS = [BASE_DIR / "static/bootstrap", "src/static/pdfs"]
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 ACCOUNT_EMAIL_VERIFICATION = "none"
