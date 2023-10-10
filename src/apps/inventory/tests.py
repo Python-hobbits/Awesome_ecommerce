@@ -100,7 +100,7 @@ class ProductBySellerListViewTestCase(TestCase):
         self.client.login(username="testuser2", password="password")
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "product_list.html")
+        self.assertTemplateUsed(response, "product_by_seller_list.html")
 
     def test_unauthenticated_user_view(self):
         response = self.client.get(self.url)

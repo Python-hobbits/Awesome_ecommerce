@@ -15,6 +15,7 @@ ruff = "^0.0.291"
 pre-commit = "^3.4.0"
 django-allauth = "^0.57.0"
 django-autoslug = "^1.9.9"
+django-filter = "^23.3"
 
 [tool.black]
 target-version = ['py311']
