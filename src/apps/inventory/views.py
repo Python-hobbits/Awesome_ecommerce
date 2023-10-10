@@ -64,19 +64,17 @@ class ProductListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-
         if self.request.GET:
             queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
-
-            order_by = self.request.GET.get("order_by")
-            if order_by:
-                allowed_ordering_fields = ["name", "-name", "price", "-price"]
-                if order_by in allowed_ordering_fields:
-                    queryset = queryset.order_by(order_by)
-                else:
-                    queryset = queryset.order_by("-price")
-
         return queryset
+
+    def get_ordering(self):
+        order_by = self.request.GET.get("order_by")
+        allowed_ordering_fields = ["name", "-name", "price", "-price"]
+
+        if order_by in allowed_ordering_fields:
+            return (order_by,)
+        return ("-price",)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
