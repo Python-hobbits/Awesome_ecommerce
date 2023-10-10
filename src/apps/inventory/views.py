@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
+
 from django.views.generic import DetailView, ListView, CreateView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter
 from src.apps.inventory.forms import ProductForm
@@ -96,3 +98,17 @@ class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.user_type == "Seller"
+
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
+    model = Product
+    fields = ["name", "description", "category", "price"]
+    template_name = "product_edit.html"
+
+    def get_queryset(self):
+        category_slug = self.kwargs.get("category_slug")
+        product_slug = self.kwargs.get("product_slug")
+
+        queryset = Product.objects.filter(category__slug=category_slug, slug=product_slug)
+
+        return queryset

@@ -6,13 +6,11 @@
         <div class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
 
         </div>
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" class="form-control form-control-light text-bg-light" placeholder="Search..." aria-label="Search">
-            </form>
             {% if user.is_authenticated %}
-             <div class="col-md-3 text-end">
+             <div class="col-md-9 text-end">
                  <a href="{% url 'user_profile' %}" class="btn btn-outline-primary">Profile</a>
                  <a href="{% url 'product_list' %}" class="btn btn-outline-primary">View Products</a>
+                 <a href="{% url 'basket:basket_detail' %}" class="btn btn-outline-primary">Basket</a>
                  <a href="{% url 'account_logout' %}" class="btn btn-primary">Logout</a>
              </div>
             {% else %}
