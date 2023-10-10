@@ -5,6 +5,8 @@ from django.views.generic import DetailView, ListView, CreateView, UpdateView
 
 from django.views.generic import DetailView, ListView, CreateView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
+
 from src.apps.inventory.forms import ProductForm
 from src.apps.inventory.models import Product, Category
 
