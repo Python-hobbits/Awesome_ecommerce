@@ -15,22 +15,34 @@ class User(AbstractUser):
         default=UserType.ADMIN,
     )
 
-    user_profile = models.OneToOneField(
-        verbose_name="User type",
-        to="user.UserProfile",
-        related_name="users",
-        on_delete=models.SET_NULL,
-        null=True,
-    )
-
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
 
+    user_profile = models.OneToOneField(
+        "UserProfile",
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+
 
 class UserProfile(models.Model):
-    pass
+    # user = models.Field("User")
+    profile_picture = models.ImageField(upload_to="profile_pictures/", blank=True, null=True)
+    address = models.OneToOneField("UserAddress", on_delete=models.SET_NULL, blank=True, null=True)
+    mobile_phone = models.CharField(max_length=15, blank=True, null=True)
 
     class Meta:
         verbose_name = "User profile"
         verbose_name_plural = "User profiles"
+
+
+class UserAddress(models.Model):
+    country = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    street = models.CharField(max_length=100)
+    building = models.CharField(max_length=10)
+    apartment = models.CharField(max_length=10, blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.street}, {self.building}, {self.apartment}, {self.city}, {self.country}"
