@@ -4,7 +4,6 @@ from django.conf import settings
 from django.db import models
 
 from src.apps.inventory.models import Product
-from src.apps.user.models import User
 
 
 class Order(models.Model):
