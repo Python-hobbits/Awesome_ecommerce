@@ -34,7 +34,6 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         user = self.request.user
-        UserProfile.objects.get_or_create(user=user)
         profile = UserProfile.objects.get(user=user)
         if not profile.address:
             address = UserAddress()
