@@ -1,8 +1,10 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import DetailView, ListView, CreateView
+
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+
 from src.apps.inventory.forms import ProductForm
 from src.apps.inventory.models import Product, Category
 
@@ -96,3 +98,38 @@ class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.user_type == "Seller"
+
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
+    model = Product
+    form_class = ProductForm
+    template_name = "product_edit.html"
+    success_url = reverse_lazy("product_by_seller")
+    slug_url_kwarg = "product_slug"
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        return result
+
+    def test_func(self):
+        return (
+            self.request.user.user_type == "Seller"
+            and self.request.user == self.get_object().seller
+        )
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView, UserPassesTestMixin):
+    model = Product
+    success_url = reverse_lazy("product_by_seller")
+    slug_url_kwarg = "product_slug"
+    template_name = "product_confirm_delete.html"
+
+    def delete(self, request, *args, **kwargs):
+        result = super().delete(request, *args, **kwargs)
+        return result
+
+    def test_func(self):
+        return (
+            self.request.user.user_type == "Seller"
+            and self.request.user == self.get_object().seller
+        )
