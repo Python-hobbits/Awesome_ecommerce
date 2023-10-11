@@ -6,6 +6,8 @@ from src.apps.inventory.views import (
     CategoryDetailView,
     ProductListView,
     ProductCreateView,
+    ProductUpdateView,
+    ProductDeleteView,
 )
 
 urlpatterns = [
@@ -18,4 +20,14 @@ urlpatterns = [
     ),
     path("", ProductListView.as_view(), name="product_list"),
     path("seller/create_product/", ProductCreateView.as_view(), name="product_create"),
+    path(
+        "seller/edit/<slug:category_slug>/<slug:product_slug>/",
+        ProductUpdateView.as_view(),
+        name="product_edit",
+    ),
+    path(
+        "seller/delete/<slug:category_slug>/<slug:product_slug>/",
+        ProductDeleteView.as_view(),
+        name="product_delete",
+    ),
 ]
