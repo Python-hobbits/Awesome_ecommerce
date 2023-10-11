@@ -1,18 +1,18 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Profile Page</title>
+<title>User Page</title>
 {% endblock meta %}
 
 {% block content %}
-  <h1>User Profile Detail</h1>
+  <h1>User Detail</h1>
 
   <p>Username: {{ user.username }}</p>
   <p>First Name: {{ user.first_name }}</p>
   <p>Last Name: {{ user.last_name }}</p>
   <p>Email: {{ user.email }}</p>
   <p>type: {{ user.user_type }}</p>
-  <a href="{% url 'user_edit' %}" class="btn btn-outline-primary">Edit Profile</a>
+  <a href="{% url 'user_edit' %}" class="btn btn-outline-primary">Edit User</a>
 
 
 

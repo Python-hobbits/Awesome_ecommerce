@@ -20,7 +20,26 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ["first_name", "last_name", "email"]
 
 
-class UserProfileForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
+    # UserProfile fields
+    profile_picture = forms.ImageField(required=False)
+    mobile_phone = forms.CharField(max_length=15, required=False)
+
+    # UserAddress fields
+    country = forms.CharField(max_length=100)
+    city = forms.CharField(max_length=100)
+    street = forms.CharField(max_length=100)
+    building = forms.CharField(max_length=10)
+    apartment = forms.CharField(max_length=10, required=False)
+
     class Meta:
         model = UserProfile
-        fields = ["profile_picture", "address", "mobile_phone"]
+        fields = [
+            "profile_picture",
+            "mobile_phone",
+            "country",
+            "city",
+            "street",
+            "building",
+            "apartment",
+        ]
