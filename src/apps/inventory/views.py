@@ -1,5 +1,4 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 
@@ -101,38 +100,35 @@ class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return self.request.user.user_type == "Seller"
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
     model = Product
-    fields = ["name", "description", "category", "price"]
+    form_class = ProductForm
     template_name = "product_edit.html"
     success_url = reverse_lazy("product_by_seller")
+    slug_url_kwarg = "product_slug"
 
-    def get_queryset(self):
-        category_slug = self.kwargs.get("category_slug")
-        product_slug = self.kwargs.get("product_slug")
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        return result
 
-        queryset = Product.objects.filter(category__slug=category_slug, slug=product_slug)
-
-        return queryset
-
-    def is_seller(self):
+    def test_func(self):
         return (
             self.request.user.user_type == "Seller"
             and self.request.user == self.get_object().seller
         )
 
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, DeleteView, UserPassesTestMixin):
     model = Product
     success_url = reverse_lazy("product_by_seller")
+    slug_url_kwarg = "product_slug"
+    template_name = "product_confirm_delete.html"
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        self.object.delete()
+    def delete(self, request, *args, **kwargs):
+        result = super().delete(request, *args, **kwargs)
+        return result
 
-        return HttpResponseRedirect(self.get_success_url())
-
-    def is_seller(self):
+    def test_func(self):
         return (
             self.request.user.user_type == "Seller"
             and self.request.user == self.get_object().seller
