@@ -31,8 +31,8 @@ class OrderProduct(models.Model):
 
 class DeliveryOption(models.Model):
     DELIVERY_CHOICES = [
-        ('delivery', 'Delivery'),
-        ('pickup', 'Pickup'),
+        ("delivery", "Delivery"),
+        ("pickup", "Pickup"),
     ]
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
