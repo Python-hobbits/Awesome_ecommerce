@@ -30,7 +30,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = UserProfile
     form_class = ProfileForm
     template_name = "profile/profile_edit.html"
-    success_url = reverse_lazy("user_detail")
+    success_url = reverse_lazy("profile_detail")
 
     def get_object(self, queryset=None):
         # Check if the user has a profile; if not, create one
@@ -55,3 +55,13 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
         profile.save()
         return super().form_valid(form)
+
+
+class UserProfileDetailView(LoginRequiredMixin, DetailView):
+    model = UserProfile
+    template_name = "profile/profile_detail.html"
+
+    def get_object(self, queryset=None):
+        user = self.request.user
+        profile = UserProfile.objects.get(user=user)
+        return profile
