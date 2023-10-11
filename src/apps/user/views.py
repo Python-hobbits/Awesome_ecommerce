@@ -33,7 +33,6 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("profile_detail")
 
     def get_object(self, queryset=None):
-        # Check if the user has a profile; if not, create one
         user = self.request.user
         UserProfile.objects.get_or_create(user=user)
         profile = UserProfile.objects.get(user=user)

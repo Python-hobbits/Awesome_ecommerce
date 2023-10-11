@@ -21,11 +21,8 @@ class CustomUserChangeForm(UserChangeForm):
 
 
 class ProfileForm(forms.ModelForm):
-    # UserProfile fields
     profile_picture = forms.ImageField(required=False)
     mobile_phone = forms.CharField(max_length=15, required=False)
-
-    # UserAddress fields
     country = forms.CharField(max_length=100)
     city = forms.CharField(max_length=100)
     street = forms.CharField(max_length=100)

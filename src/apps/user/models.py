@@ -27,7 +27,6 @@ class User(AbstractUser):
 
 
 class UserProfile(models.Model):
-    # user = models.Field("User")
     profile_picture = models.ImageField(upload_to="profile_pictures/", blank=True, null=True)
     address = models.OneToOneField("UserAddress", on_delete=models.SET_NULL, blank=True, null=True)
     mobile_phone = models.CharField(max_length=15, blank=True, null=True)
