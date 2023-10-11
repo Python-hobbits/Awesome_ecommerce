@@ -35,7 +35,7 @@ class CategoryDetailView(DetailView):
 class ProductBySellerListView(LoginRequiredMixin, ListView):
     model = Product
     paginate_by = 10
-    template_name = "product_list.html"
+    template_name = "product_by_seller_list.html"
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
@@ -43,10 +43,43 @@ class ProductBySellerListView(LoginRequiredMixin, ListView):
         return Product.objects.none()
 
 
+class ProductFilter(FilterSet):
+    name = CharFilter(field_name="name", lookup_expr="icontains", label="Name contains")
+    category = ModelChoiceFilter(
+        field_name="category", queryset=Category.objects.all(), label="Category"
+    )
+
+    class Meta:
+        model = Product
+        fields = {
+            "price": ["lt", "gt"],
+        }
+
+
 class ProductListView(ListView):
     model = Product
-    paginate_by = 10
     template_name = "product_list.html"
+    context_object_name = "products"
+    filterset_class = ProductFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.GET:
+            queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
+        return queryset
+
+    def get_ordering(self):
+        order_by = self.request.GET.get("order_by")
+        allowed_ordering_fields = ["name", "-name", "price", "-price"]
+
+        if order_by in allowed_ordering_fields:
+            return (order_by,)
+        return ("-price",)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter"] = self.filterset_class(self.request.GET)
+        return context
 
 
 class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -63,3 +96,38 @@ class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def test_func(self):
         return self.request.user.user_type == "Seller"
+
+
+class ProductUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
+    model = Product
+    form_class = ProductForm
+    template_name = "product_edit.html"
+    success_url = reverse_lazy("product_by_seller")
+    slug_url_kwarg = "product_slug"
+
+    def form_valid(self, form):
+        result = super().form_valid(form)
+        return result
+
+    def test_func(self):
+        return (
+            self.request.user.user_type == "Seller"
+            and self.request.user == self.get_object().seller
+        )
+
+
+class ProductDeleteView(LoginRequiredMixin, DeleteView, UserPassesTestMixin):
+    model = Product
+    success_url = reverse_lazy("product_by_seller")
+    slug_url_kwarg = "product_slug"
+    template_name = "product_confirm_delete.html"
+
+    def delete(self, request, *args, **kwargs):
+        result = super().delete(request, *args, **kwargs)
+        return result
+
+    def test_func(self):
+        return (
+            self.request.user.user_type == "Seller"
+            and self.request.user == self.get_object().seller
+        )
