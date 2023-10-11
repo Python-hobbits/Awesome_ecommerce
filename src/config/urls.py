@@ -16,6 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from src.apps.orders.views import ThankYouView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -23,5 +24,6 @@ urlpatterns = [
     path("accounts/", include("src.apps.user.urls")),
     path("basket/", include("src.apps.basket.urls")),
     path("products/", include("src.apps.inventory.urls")),
-    path("checkout/", include("src.apps.orders.urls"))
+    path("checkout/", include("src.apps.orders.urls")),
+    path("thank_you/<int:order_id>/", ThankYouView.as_view(), name="thank_you")
 ]
