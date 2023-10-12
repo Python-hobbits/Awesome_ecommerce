@@ -31,7 +31,9 @@ class CheckoutView(View):
             return HttpResponseRedirect(reverse("account_login"))
 
     def post(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect(reverse("account_login"))
+        else:
             basket = Basket(request)
             total_price = basket.get_total_price()
             delivery_option_form = DeliveryOptionForm(request.POST)
@@ -68,9 +70,6 @@ class CheckoutView(View):
                     "delivery_option_form": delivery_option_form,
                 },
             )
-
-        else:
-            return HttpResponseRedirect(reverse("account_login"))
 
 
 class ThankYouView(UserPassesTestMixin, View):
