@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block meta %}
+<title>Checkout</title>
+{% endblock meta %}
+
+{% block content %}
+<body>
+    <h1>Checkout</h1>
+
+    <ul>
+        {% for item in basket %}
+            <li>{{ item.product.name }} - Quantity: {{ item.quantity }} - Price: ${{ item.total_price }}</li>
+        {% endfor %}
+    </ul>
+
+    <p>Total Price: ${{ total_price }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Render DeliveryOptionForm fields -->
+        {{ delivery_option_form.as_p }}
+
+        <button type="submit">Create an order</button>
+    </form>
+</body>
+{% endblock content %}
