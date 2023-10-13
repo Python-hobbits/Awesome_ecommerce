@@ -79,7 +79,6 @@ class ThankYouView(UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         order = self.get_object()
-        print(order.id)
         total_price = sum(
             order_product.get_total_price() for order_product in order.orderproduct_set.all()
         )
