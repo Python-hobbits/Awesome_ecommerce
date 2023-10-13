@@ -1,40 +1,53 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Basket</title>
+    <title>Basket</title>
 {% endblock meta %}
 
 {% block content %}
-<h1>Basket</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Basket</h1>
 
-<table>
-    <tbody>
-        {% for item in basket %}
-            <tr>
-                <td>Name: {{ item.product.name }}</td>
-                <td>Quantity: {{ item.quantity }}</td>
-                <td>Price: {{ item.product.price }}</td>
-                <td>Total price: {{ item.total_price }}</td>
-                <td>
-                    <form method="post" action="{% url 'basket:basket_add' item.product.id %}">
-                        {% csrf_token %}
-                        <input type="number" name="quantity" value="1">
-                        <button type="submit">Add</button>
-                    </form>
-                    <form method="post" action="{% url 'basket:basket_remove' item.product.id %}">
-                        {% csrf_token %}
-                        <button type="submit">Remove</button>
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Total Price</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in basket %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.total_price }}</td>
+                        <td>
+                            <form method="post" action="{% url 'basket:basket_add' item.product.id %}">
+                                {% csrf_token %}
+                                <div class="input-group">
+                                    <input type="number" name="quantity" value="1" class="form-control">
+                                    <div class="input-group-append">
+                                        <button type="submit" class="btn btn-outline-success">Add</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form method="post" action="{% url 'basket:basket_remove' item.product.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-danger mt-2">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-<p>Total_price: {{ basket.get_total_price }}</p>
-
-<form method="post" action="{% url 'checkout' %}">
-    {% csrf_token %}
-    <button type="submit">Checkout</button>
-</form>
+        <p class="mt-3">Total Price: {{ basket.get_total_price }}</p>
+        <div class="d-grid gap-2">
+            <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg">Checkout</a>
+        </div>
+    </div>
 {% endblock content %}

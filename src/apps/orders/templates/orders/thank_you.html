@@ -5,28 +5,45 @@
 {% endblock meta %}
 
 {% block content %}
-    <h1>Thank You for Your Order!</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Thank You for Your Order!</h1>
 
-    <p>Your order summary:</p>
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Order Summary:</h2>
 
-    <ul>
-        <li><strong>Order ID:</strong> {{ order.id }}</li>
-        <li><strong>User Name:</strong> {{ order.user_name }}</li>
-        <li><strong>User Email:</strong> {{ order.user_email }}</li>
-    </ul>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Order ID:</strong> {{ order.id }}</li>
+                    <li class="list-group-item"><strong>User Name:</strong> {{ order.user_name }}</li>
+                    <li class="list-group-item"><strong>User Email:</strong> {{ order.user_email }}</li>
+                </ul>
+            </div>
 
-    <p>Products in your order:</p>
+            <div class="col-md-6">
+                <h2>Products in Your Order:</h2>
 
-    <ul>
-        {% for order_product in order.orderproduct_set.all %}
-            <li>
-                <strong>{{ order_product.product.name }}</strong>
-                - Quantity: {{ order_product.quantity }}
-                - Price: ${{ order_product.product_price }}
-            </li>
-        {% endfor %}
-    </ul>
+                <ul class="list-group">
+                    {% for order_product in order.orderproduct_set.all %}
+                        <li class="list-group-item">
+                            <strong>{{ order_product.product.name }}</strong>
+                            - Quantity: {{ order_product.quantity }}
+                            - Price: ${{ order_product.product_price }}
+                        </li>
+                    {% endfor %}
+                </ul>
 
-    <p>Total Price: ${{ total_price }}</p>
+                <p><strong>Total Price:</strong> ${{ total_price }}</p>
+            </div>
+        </div>
 
+        <div class="mt-4">
+            <h2>Additional Details:</h2>
+
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Payment Method:</strong> {{ payment_method }}</li>
+                <li class="list-group-item"><strong>Delivery Method:</strong> {{ delivery_method }}</li>
+                <li class="list-group-item"><strong>Shipment Address:</strong> {{ shipment_address }}</li>
+            </ul>
+        </div>
+    </div>
 {% endblock content %}

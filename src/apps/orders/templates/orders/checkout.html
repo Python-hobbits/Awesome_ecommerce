@@ -5,24 +5,54 @@
 {% endblock meta %}
 
 {% block content %}
-<body>
-    <h1>Checkout</h1>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="mb-4">Checkout</h1>
 
-    <ul>
-        {% for item in basket %}
-            <li>{{ item.product.name }} - Quantity: {{ item.quantity }} - Price: ${{ item.total_price }}</li>
-        {% endfor %}
-    </ul>
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group">
+                    {% for item in basket %}
+                        <li class="list-group-item">
+                            {{ item.product.name }} - Quantity: {{ item.quantity }} - Price: ${{ item.total_price }}
+                        </li>
+                    {% endfor %}
+                </ul>
 
-    <p>Total Price: ${{ total_price }}</p>
+                <p class="mt-3"><strong>Total Price:</strong> ${{ total_price }}</p>
+            </div>
 
-    <form method="post">
-        {% csrf_token %}
+            <div class="col-md-6">
+                <form method="post">
+                    {% csrf_token %}
+                    {% if request.method == 'POST' %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ delivery_option_form.errors.delivery_method }}
+                            {{ delivery_option_form.errors.shipment_address }}
+                            {{ payment_method_form.errors.payment_method }}
+                        </div>
+                    {% endif %}
 
-        <!-- Render DeliveryOptionForm fields -->
-        {{ delivery_option_form.as_p }}
+                    <div class="mb-3">
+                        <label for="{{ delivery_option_form.delivery_method.id_for_label }}" class="fw-bold">Delivery Method</label>
+                        {{ delivery_option_form.delivery_method }}
+                    </div>
 
-        <button type="submit">Create an order</button>
-    </form>
+                    <div class="mb-3">
+                        <label for="{{ delivery_option_form.shipment_address.id_for_label }}" class="fw-bold">Shipment Address</label>
+                        <br>{{ delivery_option_form.shipment_address }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ payment_method_form.payment_method.id_for_label }}" class="fw-bold">Payment Method</label>
+                        {{ payment_method_form.payment_method }}
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg">Create an order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 {% endblock content %}

@@ -6,7 +6,7 @@ from django.views import View
 from django.views.generic import DetailView
 
 from src.apps.basket.basket import Basket
-from .forms import DeliveryOptionForm
+from .forms import DeliveryOptionForm, PaymentMethodForm
 from .models import Order, OrderProduct
 
 
@@ -17,6 +17,7 @@ class CheckoutView(LoginRequiredMixin, View):
         basket = Basket(request)
         total_price = basket.get_total_price()
         delivery_option_form = DeliveryOptionForm()
+        payment_method_form = PaymentMethodForm()
 
         return render(
             request,
@@ -25,6 +26,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 "basket": basket,
                 "total_price": total_price,
                 "delivery_option_form": delivery_option_form,
+                "payment_method_form": payment_method_form,
             },
         )
 
@@ -32,8 +34,9 @@ class CheckoutView(LoginRequiredMixin, View):
         basket = Basket(request)
         total_price = basket.get_total_price()
         delivery_option_form = DeliveryOptionForm(request.POST)
+        payment_method_form = PaymentMethodForm(request.POST)
 
-        if delivery_option_form.is_valid():
+        if delivery_option_form.is_valid() and payment_method_form.is_valid():
             order = Order.objects.create(
                 user_id=request.user,
                 user_name=request.user.first_name,
@@ -52,6 +55,10 @@ class CheckoutView(LoginRequiredMixin, View):
             delivery_method.order = order
             delivery_method.save()
 
+            payment_method = payment_method_form.save(commit=False)
+            payment_method.order = order
+            payment_method.save()
+
             basket.clear()
 
             return HttpResponseRedirect(reverse("thank_you", kwargs={"order_id": order.id}))
@@ -63,6 +70,7 @@ class CheckoutView(LoginRequiredMixin, View):
                 "basket": basket,
                 "total_price": total_price,
                 "delivery_option_form": delivery_option_form,
+                "payment_method_form": payment_method_form,
             },
         )
 
@@ -83,5 +91,15 @@ class ThankYouView(UserPassesTestMixin, DetailView):
             order_product.get_total_price() for order_product in order.orderproduct_set.all()
         )
 
-        context = {"order": order, "total_price": total_price}
+        delivery_method = order.deliveryoption_set.first()
+        payment_method = order.paymentmethod_set.first()
+
+        context = {
+            "order": order,
+            "total_price": total_price,
+            "payment_method": payment_method.payment_method if payment_method else None,
+            "delivery_method": delivery_method.delivery_method if delivery_method else None,
+            "shipment_address": delivery_method.shipment_address if delivery_method else None,
+        }
+
         return render(request, self.template_name, context)
