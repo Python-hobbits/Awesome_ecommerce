@@ -40,9 +40,7 @@ class ProductBySellerListView(LoginRequiredMixin, ListView):
     template_name = "product_by_seller_list.html"
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return Product.objects.filter(seller=self.request.user, is_active=True)
-        return Product.objects.none()
+        return Product.objects.filter(seller=self.request.user, is_active=True)
 
 
 class DeactivatedProductBySellerListView(LoginRequiredMixin, ListView):
@@ -51,9 +49,7 @@ class DeactivatedProductBySellerListView(LoginRequiredMixin, ListView):
     template_name = "product_by_seller_list.html"
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return Product.objects.filter(seller=self.request.user, is_active=False)
-        return Product.objects.none()
+        return Product.objects.filter(seller=self.request.user, is_active=False)
 
 
 class ProductFilter(FilterSet):
