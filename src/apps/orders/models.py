@@ -36,7 +36,21 @@ class DeliveryOption(models.Model):
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     delivery_method = models.CharField(max_length=10, choices=DELIVERY_CHOICES)
-    shipment_address = models.TextField()
+    shipment_address = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.delivery_method
+
+
+class PaymentMethod(models.Model):
+    PAYMENT_CHOICES = [
+        ("credit_card", "Credit Card"),
+        ("bank_transfer", "Bank transfer"),
+        ("cash", "Cash payment on delivery"),
+    ]
+
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    payment_method = models.CharField(max_length=30, choices=PAYMENT_CHOICES)
+
+    def __str__(self):
+        return self.payment_method
