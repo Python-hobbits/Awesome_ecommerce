@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from src.apps.user.models import User, UserProfile
+from src.apps.user.models import User, UserProfile, UserAddress
 
 
 class UserAdminExtended(UserAdmin):
@@ -11,3 +11,4 @@ class UserAdminExtended(UserAdmin):
 
 admin.site.register(User, UserAdminExtended)
 admin.site.register(UserProfile)
+admin.site.register(UserAddress)
