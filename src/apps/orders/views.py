@@ -7,8 +7,8 @@ from django.views import View
 from django.views.generic import DetailView
 
 from src.apps.basket.basket import Basket
-from .forms import DeliveryOptionForm, PaymentMethodForm
-from .models import Order, OrderProduct
+from src.apps.orders.forms import DeliveryOptionForm, PaymentMethodForm
+from src.apps.orders.models import Order, OrderProduct
 
 
 class CheckoutView(LoginRequiredMixin, View):

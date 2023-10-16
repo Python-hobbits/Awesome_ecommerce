@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import DeliveryOption, PaymentMethod
+from src.apps.orders.models import DeliveryOption, PaymentMethod
 
 
 class DeliveryOptionForm(forms.ModelForm):
