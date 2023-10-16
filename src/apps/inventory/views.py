@@ -41,7 +41,18 @@ class ProductBySellerListView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return Product.objects.filter(seller=self.request.user)
+            return Product.objects.filter(seller=self.request.user, is_active=True)
+        return Product.objects.none()
+
+
+class DeactivatedProductBySellerListView(LoginRequiredMixin, ListView):
+    model = Product
+    paginate_by = 10
+    template_name = "product_by_seller_list.html"
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Product.objects.filter(seller=self.request.user, is_active=False)
         return Product.objects.none()
 
 
