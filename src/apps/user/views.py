@@ -59,6 +59,5 @@ class UserProfileDetailView(LoginRequiredMixin, DetailView):
     template_name = "profile/profile_detail.html"
 
     def get_object(self, queryset=None):
-        user = self.request.user
-        profile = UserProfile.objects.get(user=user)
+        profile = self.request.user.user_profile
         return profile
