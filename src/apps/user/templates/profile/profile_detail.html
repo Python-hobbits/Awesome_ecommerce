@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block meta %}
+    <title>Profile Detail</title>
+{% endblock meta %}
+
+{% block content %}
+    <h1>Profile Detail</h1>
+
+    <p><strong>Profile Picture:</strong></p>
+      {% if object.profile_picture %}
+        <div>
+            <img src="{{ object.profile_picture.url }}" alt="Profile Picture" width="200" height="200">
+        </div>
+    {% endif %}
+
+    <p><strong>Address:</strong></p>
+    <p>Country: {{ object.address.country }}</p>
+    <p>City: {{ object.address.city }}</p>
+    <p>Street: {{ object.address.street }}</p>
+    <p>Building: {{ object.address.building }}</p>
+    <p>Apartment: {{ object.address.apartment }}</p>
+
+    <p><strong>Mobile Phone:</strong> {{ object.mobile_phone }}</p>
+    <a href="{% url 'profile_edit' %}" class="btn btn-outline-primary">Edit Profile</a>
+{% endblock content %}
