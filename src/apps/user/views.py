@@ -32,13 +32,17 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     template_name = "profile/profile_edit.html"
     success_url = reverse_lazy("profile_detail")
 
-    def get_object(self, queryset=None):
-        profile = self.request.user.user_profile
+    @staticmethod
+    def create_user_address(profile):
         if not profile.address:
             address = UserAddress()
             address.save()
             profile.address = address
             profile.save()
+
+    def get_object(self, queryset=None):
+        profile = self.request.user.user_profile
+        self.create_user_address(profile)
 
         return profile
 
