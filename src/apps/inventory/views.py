@@ -18,7 +18,7 @@ class ProductDetailView(DetailView):
     def get_queryset(self):
         category_slug = self.kwargs.get("category_slug")
         category = get_object_or_404(Category, slug=category_slug)
-        queryset = Product.objects.filter(category=category)
+        queryset = Product.objects.filter(category=category, is_active=True)
         return queryset
 
 
@@ -79,7 +79,7 @@ class ProductListView(ListView):
         queryset = super().get_queryset()
         if self.request.GET:
             queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
-        return queryset
+        return queryset.filter(is_active=True)
 
     def get_ordering(self):
         order_by = self.request.GET.get("order_by")
