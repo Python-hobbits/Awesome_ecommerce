@@ -33,8 +33,7 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("profile_detail")
 
     def get_object(self, queryset=None):
-        user = self.request.user
-        profile = UserProfile.objects.get(user=user)
+        profile = self.request.user.user_profile
         if not profile.address:
             address = UserAddress()
             address.save()
@@ -45,10 +44,10 @@ class ProfileUpdateView(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         profile = form.save(commit=False)
-        address_form = ProfileForm(self.request.POST, instance=profile.address)
+        profile_form = ProfileForm(self.request.POST, instance=profile.address)
 
-        if address_form.is_valid():
-            address = address_form.save()
+        if profile_form.is_valid():
+            address = profile_form.save()
             profile.address = address
 
         profile.save()
