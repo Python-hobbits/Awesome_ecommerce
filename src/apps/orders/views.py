@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
+from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import View
 from django.views.generic import DetailView
 
@@ -12,9 +13,14 @@ from .models import Order, OrderProduct
 
 class CheckoutView(LoginRequiredMixin, View):
     template_name = "orders/checkout.html"
+    product_list_url = reverse_lazy("product_list")
 
     def get(self, request, *args, **kwargs):
         basket = Basket(request)
+
+        if not basket:
+            return HttpResponseRedirect(self.product_list_url)
+
         total_price = basket.get_total_price()
         delivery_option_form = DeliveryOptionForm()
         payment_method_form = PaymentMethodForm()
@@ -36,32 +42,41 @@ class CheckoutView(LoginRequiredMixin, View):
         delivery_option_form = DeliveryOptionForm(request.POST)
         payment_method_form = PaymentMethodForm(request.POST)
 
-        if delivery_option_form.is_valid() and payment_method_form.is_valid():
-            order = Order.objects.create(
-                user_id=request.user,
-                user_name=request.user.first_name,
-                user_email=request.user.email,
-            )
+        if not basket:
+            return HttpResponseRedirect(self.product_list_url)
 
-            for item in basket:
-                product = item["product"]
-                quantity = item["quantity"]
-                price = item["price"]
-                OrderProduct.objects.create(
-                    order=order, product_id=product, quantity=quantity, product_price=price
+        if delivery_option_form.is_valid() and payment_method_form.is_valid():
+            with transaction.atomic():
+                order = Order.objects.create(
+                    user_id=request.user,
+                    user_name=request.user.first_name,
+                    user_email=request.user.email,
                 )
 
-            delivery_method = delivery_option_form.save(commit=False)
-            delivery_method.order = order
-            delivery_method.save()
+                order_products = []
+                for item in basket:
+                    product = item["product"]
+                    quantity = item["quantity"]
+                    price = item["price"]
+                    order_products.append(
+                        OrderProduct(
+                            order=order, product_id=product, quantity=quantity, product_price=price
+                        )
+                    )
 
-            payment_method = payment_method_form.save(commit=False)
-            payment_method.order = order
-            payment_method.save()
+                OrderProduct.objects.bulk_create(order_products)
 
-            basket.clear()
+                delivery_method = delivery_option_form.save(commit=False)
+                delivery_method.order = order
+                delivery_method.save()
 
-            return HttpResponseRedirect(reverse("thank_you", kwargs={"order_id": order.id}))
+                payment_method = payment_method_form.save(commit=False)
+                payment_method.order = order
+                payment_method.save()
+
+                basket.clear()
+
+                return HttpResponseRedirect(reverse("thank_you", kwargs={"order_id": order.id}))
 
         return render(
             request,
