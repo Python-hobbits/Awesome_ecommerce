@@ -12,9 +12,9 @@ from src.apps.inventory.views import (
 )
 
 urlpatterns = [
-    path("seller/my_products", ProductBySellerListView.as_view(), name="product_by_seller"),
+    path("products/seller/", ProductBySellerListView.as_view(), name="product_by_seller"),
     path(
-        "seller/my_products/not_active",
+        "products/seller/not_active",
         DeactivatedProductBySellerListView.as_view(),
         name="not_active_product_by_seller",
     ),
@@ -24,15 +24,15 @@ urlpatterns = [
         ProductDetailView.as_view(),
         name="product_detail",
     ),
-    path("", ProductListView.as_view(), name="product_list"),
-    path("seller/create_product/", ProductCreateView.as_view(), name="product_create"),
+    path("products/", ProductListView.as_view(), name="product_list"),
+    path("create/", ProductCreateView.as_view(), name="product_create"),
     path(
-        "seller/edit/<slug:category_slug>/<slug:product_slug>/",
+        "<slug:category_slug>/<slug:product_slug>/edit/",
         ProductUpdateView.as_view(),
         name="product_edit",
     ),
     path(
-        "seller/delete/<slug:category_slug>/<slug:product_slug>/",
+        "<slug:category_slug>/<slug:product_slug>/delete/",
         ProductDeleteView.as_view(),
         name="product_delete",
     ),
