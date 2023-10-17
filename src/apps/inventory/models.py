@@ -1,5 +1,6 @@
 from autoslug import AutoSlugField
 from django.conf import settings
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
@@ -35,6 +36,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     slug = AutoSlugField(populate_from="name", unique=True)
     is_active = models.BooleanField(default=True)
+    stock = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
 
     def __str__(self):
         return self.name
@@ -42,6 +44,10 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name, self.id)
         super().save(*args, **kwargs)
+
+        if self.stock == 0:
+            self.is_active = False
+            self.save()
 
     def get_absolute_url(self):
         return reverse("product_detail", args=[str(self.category.slug), str(self.slug)])
