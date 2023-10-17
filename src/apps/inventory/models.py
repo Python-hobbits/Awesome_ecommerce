@@ -34,6 +34,7 @@ class Product(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     slug = AutoSlugField(populate_from="name", unique=True)
+    is_active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

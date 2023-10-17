@@ -18,7 +18,7 @@ class ProductDetailView(DetailView):
     def get_queryset(self):
         category_slug = self.kwargs.get("category_slug")
         category = get_object_or_404(Category, slug=category_slug)
-        queryset = Product.objects.filter(category=category)
+        queryset = Product.objects.filter(category=category, is_active=True)
         return queryset
 
 
@@ -40,9 +40,16 @@ class ProductBySellerListView(LoginRequiredMixin, ListView):
     template_name = "product_by_seller_list.html"
 
     def get_queryset(self):
-        if self.request.user.is_authenticated:
-            return Product.objects.filter(seller=self.request.user)
-        return Product.objects.none()
+        return Product.objects.filter(seller=self.request.user, is_active=True)
+
+
+class DeactivatedProductBySellerListView(LoginRequiredMixin, ListView):
+    model = Product
+    paginate_by = 10
+    template_name = "product_by_seller_list.html"
+
+    def get_queryset(self):
+        return Product.objects.filter(seller=self.request.user, is_active=False)
 
 
 class ProductFilter(FilterSet):
@@ -68,7 +75,7 @@ class ProductListView(ListView):
         queryset = super().get_queryset()
         if self.request.GET:
             queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
-        return queryset
+        return queryset.filter(is_active=True)
 
     def get_ordering(self):
         order_by = self.request.GET.get("order_by")
