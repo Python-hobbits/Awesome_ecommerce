@@ -138,6 +138,7 @@ class ProductCreateViewTestCase(TestCase):
             "description": "This is a test product",
             "category": self.test_category.id,
             "price": 10.99,
+            "stock": 10,
         }
         response = self.client.post(reverse("product_create"), data)
         self.assertEqual(response.status_code, 302)
