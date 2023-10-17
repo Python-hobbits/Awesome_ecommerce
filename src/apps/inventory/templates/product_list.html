@@ -27,6 +27,7 @@
         <p>Category: {{ product.category.name }}</p>
         <p>Price: ${{ product.price }}</p>
         <p>Seller: {{ product.seller.username }}</p>
+        <p>Available in stock: {{ product.stock }}</p>
       </div>
     {% empty %}
       <p>No products found.</p>
