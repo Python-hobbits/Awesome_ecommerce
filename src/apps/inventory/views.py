@@ -1,4 +1,3 @@
-import django_filters
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -48,24 +47,27 @@ class ProductFilter(FilterSet):
         }
 
 
-class CustomBooleanFilter(django_filters.BooleanFilter):
-    def filter(self, queryset, value):
-        if value is True:
-            return queryset.exclude(**{self.field_name: 0})
-        elif value is None:
-            return queryset
-        return queryset.filter(**{self.field_name: 0})
+# TODO: refactor this mess so that seller could filter products by stock availability
 
-
-class SellerProductFilter(ProductFilter):
-    stock = CustomBooleanFilter(field_name="stock", label="Stock (In Stock)")
+# class CustomBooleanFilter(django_filters.BooleanFilter):
+#     def filter(self, queryset, value):
+#         if value is True:
+#             return queryset.exclude(**{self.field_name: 0})
+#         elif value is None:
+#             return queryset
+#         return queryset.filter(**{self.field_name: 0})
+#
+#
+# class SellerProductFilter(ProductFilter):
+#     stock = CustomBooleanFilter(field_name="stock", label="Stock (In Stock)")
+#
 
 
 class ProductBySellerListView(LoginRequiredMixin, ListView):
     model = Product
     paginate_by = 10
     template_name = "product_by_seller_list.html"
-    filterset_class = SellerProductFilter
+    filterset_class = ProductFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -82,7 +84,7 @@ class DeactivatedProductBySellerListView(LoginRequiredMixin, ListView):
     model = Product
     paginate_by = 10
     template_name = "product_by_seller_list.html"
-    filterset_class = SellerProductFilter
+    filterset_class = ProductFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()
