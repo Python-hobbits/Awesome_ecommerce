@@ -1,8 +1,9 @@
+import django_filters
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 
-from django_filters import FilterSet, CharFilter, ModelChoiceFilter, NumberFilter
+from django_filters import FilterSet, CharFilter, ModelChoiceFilter
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 
 from src.apps.inventory.forms import ProductForm
@@ -39,7 +40,6 @@ class ProductFilter(FilterSet):
     category = ModelChoiceFilter(
         field_name="category", queryset=Category.objects.all(), label="Category"
     )
-    stock = NumberFilter(field_name="stock", label="Stock")
 
     class Meta:
         model = Product
@@ -48,11 +48,24 @@ class ProductFilter(FilterSet):
         }
 
 
+class CustomBooleanFilter(django_filters.BooleanFilter):
+    def filter(self, queryset, value):
+        if value is True:
+            return queryset.exclude(**{self.field_name: 0})
+        elif value is None:
+            return queryset
+        return queryset.filter(**{self.field_name: 0})
+
+
+class SellerProductFilter(ProductFilter):
+    stock = CustomBooleanFilter(field_name="stock", label="Stock (In Stock)")
+
+
 class ProductBySellerListView(LoginRequiredMixin, ListView):
     model = Product
     paginate_by = 10
     template_name = "product_by_seller_list.html"
-    filterset_class = ProductFilter
+    filterset_class = SellerProductFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -69,7 +82,7 @@ class DeactivatedProductBySellerListView(LoginRequiredMixin, ListView):
     model = Product
     paginate_by = 10
     template_name = "product_by_seller_list.html"
-    filterset_class = ProductFilter
+    filterset_class = SellerProductFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()

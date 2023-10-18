@@ -36,7 +36,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     slug = AutoSlugField(populate_from="name", unique=True)
     is_active = models.BooleanField(default=True)
-    stock = models.PositiveIntegerField(default=1, validators=[MinValueValidator(0)])
+    stock = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
 
     def __str__(self):
         return self.name
