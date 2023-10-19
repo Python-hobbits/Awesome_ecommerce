@@ -18,7 +18,7 @@ class ProductDetailView(DetailView):
     def get_queryset(self):
         category_slug = self.kwargs.get("category_slug")
         category = get_object_or_404(Category, slug=category_slug)
-        queryset = Product.objects.filter(category=category, is_active=True, stock__gt=0)
+        queryset = Product.objects.filter(category=category, is_active=True)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -82,11 +82,6 @@ class ProductBySellerListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter"] = self.filterset_class(self.request.GET)
-        return context
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         context["product_image"] = ProductImage.objects.filter(is_active=True).first()
         return context
 
@@ -131,7 +126,6 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["filter"] = self.filterset_class(self.request.GET)
-        context["product_image"] = ProductImage.objects.filter(is_active=True).first()
         return context
 
 
