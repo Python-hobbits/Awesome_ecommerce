@@ -18,7 +18,7 @@ class ProductDetailView(DetailView):
     def get_queryset(self):
         category_slug = self.kwargs.get("category_slug")
         category = get_object_or_404(Category, slug=category_slug)
-        queryset = Product.objects.filter(category=category, is_active=True)
+        queryset = Product.objects.filter(category=category, is_active=True, stock__gt=0)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -40,34 +40,6 @@ class CategoryDetailView(DetailView):
         return context
 
 
-class ProductBySellerListView(LoginRequiredMixin, ListView):
-    model = Product
-    paginate_by = 10
-    template_name = "product_by_seller_list.html"
-
-    def get_queryset(self):
-        return Product.objects.filter(seller=self.request.user, is_active=True)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["product_image"] = ProductImage.objects.filter(is_active=True).first()
-        return context
-
-
-class DeactivatedProductBySellerListView(LoginRequiredMixin, ListView):
-    model = Product
-    paginate_by = 10
-    template_name = "product_by_seller_list.html"
-
-    def get_queryset(self):
-        return Product.objects.filter(seller=self.request.user, is_active=False)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["product_image"] = ProductImage.objects.filter(is_active=True).first()
-        return context
-
-
 class ProductFilter(FilterSet):
     name = CharFilter(field_name="name", lookup_expr="icontains", label="Name contains")
     category = ModelChoiceFilter(
@@ -81,6 +53,61 @@ class ProductFilter(FilterSet):
         }
 
 
+# TODO: refactor this mess so that seller could filter products by stock availability
+
+# class CustomBooleanFilter(django_filters.BooleanFilter):
+#     def filter(self, queryset, value):
+#         if value is True:
+#             return queryset.exclude(**{self.field_name: 0})
+#         elif value is None:
+#             return queryset
+#         return queryset.filter(**{self.field_name: 0})
+#
+#
+# class SellerProductFilter(ProductFilter):
+#     stock = CustomBooleanFilter(field_name="stock", label="Stock (In Stock)")
+#
+
+
+class ProductBySellerListView(LoginRequiredMixin, ListView):
+    model = Product
+    paginate_by = 10
+    template_name = "product_by_seller_list.html"
+    filterset_class = ProductFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
+        return queryset.filter(seller=self.request.user, is_active=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter"] = self.filterset_class(self.request.GET)
+        return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["product_image"] = ProductImage.objects.filter(is_active=True).first()
+        return context
+
+
+class DeactivatedProductBySellerListView(LoginRequiredMixin, ListView):
+    model = Product
+    paginate_by = 10
+    template_name = "product_by_seller_list.html"
+    filterset_class = ProductFilter
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
+        return queryset.filter(seller=self.request.user, is_active=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["filter"] = self.filterset_class(self.request.GET)
+        return context
+
+
 class ProductListView(ListView):
     model = Product
     template_name = "product_list.html"
@@ -91,7 +118,7 @@ class ProductListView(ListView):
         queryset = super().get_queryset()
         if self.request.GET:
             queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
-        return queryset.filter(is_active=True)
+        return queryset.filter(is_active=True, stock__gt=0)
 
     def get_ordering(self):
         order_by = self.request.GET.get("order_by")

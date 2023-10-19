@@ -6,7 +6,7 @@ from src.apps.inventory.models import Product, ProductImage
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ["name", "description", "category", "price", "is_active"]
+        fields = ["name", "description", "category", "price", "is_active", "stock"]
 
 
 class ProductImageForm(forms.ModelForm):

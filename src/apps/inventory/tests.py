@@ -61,10 +61,7 @@ class ProductDetailViewTestCase(TestCase):
         self.category = Category.objects.create(name="Test Category")
         self.user = get_user_model().objects.create_user(username="testuser", password="password")
         self.product = Product.objects.create(
-            name="Test Product",
-            category=self.category,
-            price=10.0,
-            seller=self.user,
+            name="Test Product", category=self.category, price=10.0, seller=self.user, stock=3
         )
         self.url = reverse("product_detail", args=[self.category.slug, self.product.slug])
 
@@ -138,6 +135,7 @@ class ProductCreateViewTestCase(TestCase):
             "description": "This is a test product",
             "category": self.test_category.id,
             "price": 10.99,
+            "stock": 10,
         }
         response = self.client.post(reverse("product_create"), data)
         self.assertEqual(response.status_code, 302)

@@ -5,28 +5,24 @@
 {% endblock meta %}
 
 {% block content %}
-    <div class="container mt-4">
-        <h1>Product List</h1>
-        <div class="row">
-            {% for product in product_list %}
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        {% if product.images.all %}
-                            <img src="{{ product_image.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                        {% endif %}
-                        <div class="card-body">
-                            <h5 class="card-title">{{ product.name }}</h5>
-                            <p class="card-text">{{ product.description }}</p>
-                            <p class="card-text"><strong>Category:</strong> {{ product.category }}</p>
-                            <p class="card-text"><strong>Price:</strong> ${{ product.price }}</p>
-                            <div class="d-flex justify-content-between">
-                                <a href="{% url 'product_edit' category_slug=product.category.slug product_slug=product.slug %}" class="btn btn-outline-primary">Edit</a>
-                                <a href="{% url 'product_delete' category_slug=product.category.slug product_slug=product.slug %}" class="btn btn-outline-danger">Delete</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+<h1>Product List</h1>
+<form method="get">
+    {{filter.form.as_p}}
+    <button type="submit">Apply Filters</button>
+</form>
+<ul>
+    {% for product in product_list %}
+    <li>
+        <h2>{{ product.name }}</h2>
+        <p>Description: {{ product.description }}</p>
+        <p>Category: {{ product.category }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <p>Available stock: {{ product.stock}}</p>
+        <a href="{% url 'product_edit' category_slug=product.category.slug product_slug=product.slug %}"
+           class="btn btn-outline-primary">Edit</a>
+        <a href="{% url 'product_delete' category_slug=product.category.slug product_slug=product.slug %}"
+           class="btn btn-outline-danger">Delete</a>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock content %}
