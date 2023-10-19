@@ -5,10 +5,44 @@
 {% endblock meta %}
 
 {% block content %}
-  <h1>Edit Product</h1>
+  <div class="container mt-4">
+    <h1 class="mb-4">Edit Product</h1>
 
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-  </form>
+    <form method="post" enctype="multipart/form-data" class="form">
+      {% csrf_token %}
+
+      <!-- Main Product Form -->
+      <div class="card mb-4">
+        <div class="card-body">
+          {{ form.as_p }}
+        </div>
+      </div>
+
+      <!-- ProductImage Formset -->
+      <div class="card mb-4">
+        <div class="card-body">
+          {{ formset.management_form }}
+          {% for form in formset %}
+            <div class="form-group">
+
+              {% if form.instance.image %}
+                <img src="{{ form.instance.image.url }}" alt="Product Image" style="width: 30%; margin: 1rem">
+              {% endif %}
+
+              {{ form.image }}
+              {{ form.is_active.label_tag }}
+              {{ form.is_active }}
+              {{ form.id }}
+              {{ form.product }}
+
+              <hr style="margin: 10px 0;">
+
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
 {% endblock %}
