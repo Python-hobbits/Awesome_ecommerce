@@ -34,24 +34,15 @@
     </div>
 
     <!-- Product List -->
-    <div class="card-group">
-      {% for product in products %}
-        <div class="card mb-4">
-          {% if product.active_images.all %}
-            <img src="{{ product.active_images.first.image.url }}" class="card-img-top" alt="{{ product.name }}">
-          {% endif %}
-          <div class="card-body">
-            <h2 class="card-title">
-              <a href="{% url 'product_detail' product.category.slug product.slug %}">{{ product.name }}</a>
-            </h2>
-            <p class="card-text">Category: {{ product.category.name }}</p>
-            <p class="card-text">Price: ${{ product.price }}</p>
-            <p class="card-text">Seller: {{ product.seller.username }}</p>
-          </div>
-        </div>
-      {% empty %}
-        <p class="col-md-12">No products found.</p>
-      {% endfor %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+  {% for product in products %}
+    <div class="col">
+      {% include 'utils/product_card.html' %}
     </div>
-  </div>
+  {% endfor %}
+</div>
+
+
 {% endblock %}
+
+
