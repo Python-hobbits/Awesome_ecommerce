@@ -15,7 +15,7 @@
 
                 <!-- Display all product images in a row -->
                 <div class="row">
-                    {% for product_image in product_images %}
+                    {% for product_image in object.active_images %}
                         <div class="col-md-4 mb-3">
                             <img src="{{ product_image.image.url }}" class="img-fluid" alt="{{ object.name }}">
                         </div>

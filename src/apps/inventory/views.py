@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter
 
@@ -18,13 +19,11 @@ class ProductDetailView(DetailView):
     def get_queryset(self):
         category_slug = self.kwargs.get("category_slug")
         category = get_object_or_404(Category, slug=category_slug)
-        queryset = Product.objects.filter(category=category, is_active=True)
+        queryset = Product.objects.filter(category=category, is_active=True, stock__gt=0)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        images = self.object.images.filter(is_active=True)
-        context["product_images"] = images
         return context
 
 
@@ -173,6 +172,12 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
             instances = formset.save(commit=False)
             for instance in instances:
                 instance.product = self.object
+                instance.save()
+
+                if not instance.is_active:
+                    instance.deactivated_at = timezone.now()
+                else:
+                    instance.deactivated_at = None
                 instance.save()
 
         return response

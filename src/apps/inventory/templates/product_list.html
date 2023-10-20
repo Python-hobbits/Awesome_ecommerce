@@ -37,8 +37,8 @@
     <div class="card-group">
       {% for product in products %}
         <div class="card mb-4">
-          {% if product.images.all %}
-            <img src="{{ product.images.first.image.url }}" class="card-img-top" alt="{{ product.name }}">
+          {% if product.active_images.all %}
+            <img src="{{ product.active_images.first.image.url }}" class="card-img-top" alt="{{ product.name }}">
           {% endif %}
           <div class="card-body">
             <h2 class="card-title">

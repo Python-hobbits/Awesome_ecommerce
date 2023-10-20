@@ -48,6 +48,9 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("product_detail", args=[str(self.category.slug), str(self.slug)])
 
+    def active_images(self):
+        return self.images.filter(is_active=True)
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
@@ -55,6 +58,7 @@ class ProductImage(models.Model):
     is_active = models.BooleanField(default=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+    deactivated_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"Image for {self.product.name} ({'Active' if self.is_active else 'Inactive'})"

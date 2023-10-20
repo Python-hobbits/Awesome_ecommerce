@@ -35,6 +35,23 @@
               {{ form.id }}
               {{ form.product }}
 
+
+              <div style="margin-top: 20px;"></div>
+
+              <!-- Display uploaded_at -->
+              {% if form.instance.uploaded_at %}
+                <p class="small text-secondary">Uploaded at: {{ form.instance.uploaded_at }}</p>
+              {% endif %}
+              <!-- Display modified_at if it's different from uploaded_at -->
+              {% if form.instance.modified_at|date:"i" != form.instance.uploaded_at|date:"i" %}
+                <p class="small text-secondary">Modified at: {{ form.instance.modified_at }}</p>
+              {% endif %}
+
+              <!-- Display deactivated_at if it's not empty -->
+              {% if form.instance.deactivated_at %}
+                <p class="small text-secondary">Deactivated at: {{ form.instance.deactivated_at }}</p>
+              {% endif %}
+
               <hr style="margin: 10px 0;">
 
             </div>
