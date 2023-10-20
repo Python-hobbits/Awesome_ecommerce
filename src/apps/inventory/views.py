@@ -22,10 +22,6 @@ class ProductDetailView(DetailView):
         queryset = Product.objects.filter(category=category, is_active=True, stock__gt=0)
         return queryset
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
 
 class CategoryDetailView(DetailView):
     model = Category
