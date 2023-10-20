@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import F
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -21,6 +22,14 @@ class ProductDetailView(DetailView):
         category = get_object_or_404(Category, slug=category_slug)
         queryset = Product.objects.filter(category=category, is_active=True, stock__gt=0)
         return queryset
+
+    def get(self, request, *args, **kwargs):
+        if self.request.user.user_type == "Customer":
+            product = self.get_object()
+            product.visit_count = F("visit_count") + 1
+            product.save()
+
+        return super().get(request, *args, **kwargs)
 
 
 class ProductFilter(FilterSet):
@@ -69,7 +78,7 @@ class BaseProductListView(ListView):
 
     def get_ordering(self):
         order_by = self.request.GET.get("order_by")
-        allowed_ordering_fields = ["name", "-name", "price", "-price"]
+        allowed_ordering_fields = ["name", "-name", "price", "-price", "-visit_count"]
 
         if order_by in allowed_ordering_fields:
             return (order_by,)
