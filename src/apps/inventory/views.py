@@ -1,12 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-
-from django_filters import FilterSet, CharFilter, ModelChoiceFilter
+from django.utils import timezone
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
+from django_filters import FilterSet, CharFilter, ModelChoiceFilter
 
-from src.apps.inventory.forms import ProductForm
-from src.apps.inventory.models import Product, Category
+from src.apps.inventory.forms import ProductForm, ProductImageForm
+from src.apps.inventory.models import Product, Category, ProductImage
 
 
 class ProductDetailView(DetailView):
@@ -127,16 +128,26 @@ class ProductCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Product
     form_class = ProductForm
     template_name = "product_create.html"
-    success_url = reverse_lazy(
-        "product_by_seller"
-    )  # Redirect to a success URL (change this to your desired URL)
+    success_url = reverse_lazy("product_by_seller")
 
     def form_valid(self, form):
         form.instance.seller = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+
+        images_form = ProductImageForm(self.request.POST, self.request.FILES)
+        if images_form.is_valid():
+            for image in self.request.FILES.getlist("image"):
+                ProductImage.objects.create(product=self.object, image=image)
+
+        return response
 
     def test_func(self):
         return self.request.user.user_type == "Seller"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["images_form"] = ProductImageForm()
+        return context
 
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
@@ -147,14 +158,37 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView, UserPassesTestMixin):
     slug_url_kwarg = "product_slug"
 
     def form_valid(self, form):
-        result = super().form_valid(form)
-        return result
+        response = super().form_valid(form)
+        ImageFormSet = modelformset_factory(ProductImage, form=ProductImageForm, extra=1)
+        formset = ImageFormSet(
+            self.request.POST, self.request.FILES, queryset=self.object.images.all()
+        )
+
+        if formset.is_valid():
+            instances = formset.save(commit=False)
+            for instance in instances:
+                instance.product = self.object
+                instance.save()
+
+                if not instance.is_active:
+                    instance.deactivated_at = timezone.now()
+                else:
+                    instance.deactivated_at = None
+                instance.save()
+
+        return response
 
     def test_func(self):
         return (
             self.request.user.user_type == "Seller"
             and self.request.user == self.get_object().seller
         )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ImageFormSet = modelformset_factory(ProductImage, form=ProductImageForm, extra=1)
+        context["formset"] = ImageFormSet(queryset=ProductImage.objects.filter(product=self.object))
+        return context
 
 
 class ProductDeleteView(LoginRequiredMixin, DeleteView, UserPassesTestMixin):

@@ -1,37 +1,57 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1>Product List</h1>
+  <div class="container mt-4">
+    <h1>Product List</h1>
 
-  <form method="get">
-    {{filter.form.as_p}}
-    <button type="submit">Apply Filters</button>
-  </form>
-
-  <form method="get" class="ordering-form">
-    <label for="order_by">Order by:</label>
-    <select id="order_by" name="order_by">
-      <option value="">None</option>
-      <option value="name">Name (A-Z)</option>
-      <option value="-name">Name (Z-A)</option>
-      <option value="price">Price (Low to High)</option>
-      <option value="-price">Price (High to Low)</option>
-    </select>
-    <button type="submit">Apply Order</button>
-  </form>
-
-  <div class="product-list">
-    {% for product in products %}
-      <div class="product-card">
-        <h2><a href="{% url 'product_detail' product.category.slug product.slug %}">{{ product.name }}</a></h2>
-        <p>Category: {{ product.category.name }}</p>
-        <p>Price: ${{ product.price }}</p>
-        <p>Seller: {{ product.seller.username }}</p>
-        <p>Available in stock: {{ product.stock }}</p>
+    <!-- Filter Form Card -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <form method="get">
+          {{ filter.form.as_p }}
+          <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </form>
       </div>
-    {% empty %}
-      <p>No products found.</p>
-    {% endfor %}
-  </div>
+    </div>
 
+    <!-- Ordering Form Card -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <form method="get" class="ordering-form">
+          <div class="form-group">
+            <label for="order_by">Order by:</label>
+            <select id="order_by" name="order_by" class="form-control">
+              <option value="">None</option>
+              <option value="name">Name (A-Z)</option>
+              <option value="-name">Name (Z-A)</option>
+              <option value="price">Price (Low to High)</option>
+              <option value="-price">Price (High to Low)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Apply Order</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Product List -->
+    <div class="card-group">
+      {% for product in products %}
+        <div class="card mb-4">
+          {% if product.active_images.all %}
+            <img src="{{ product.active_images.first.image.url }}" class="card-img-top" alt="{{ product.name }}">
+          {% endif %}
+          <div class="card-body">
+            <h2 class="card-title">
+              <a href="{% url 'product_detail' product.category.slug product.slug %}">{{ product.name }}</a>
+            </h2>
+            <p class="card-text">Category: {{ product.category.name }}</p>
+            <p class="card-text">Price: ${{ product.price }}</p>
+            <p class="card-text">Seller: {{ product.seller.username }}</p>
+          </div>
+        </div>
+      {% empty %}
+        <p class="col-md-12">No products found.</p>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}

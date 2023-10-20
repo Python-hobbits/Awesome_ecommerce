@@ -5,10 +5,61 @@
 {% endblock meta %}
 
 {% block content %}
-  <h1>Edit Product</h1>
+  <div class="container mt-4">
+    <h1 class="mb-4">Edit Product</h1>
 
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Save">
-  </form>
+    <form method="post" enctype="multipart/form-data" class="form">
+      {% csrf_token %}
+
+      <!-- Main Product Form -->
+      <div class="card mb-4">
+        <div class="card-body">
+          {{ form.as_p }}
+        </div>
+      </div>
+
+      <!-- ProductImage Formset -->
+      <div class="card mb-4">
+        <div class="card-body">
+          {{ formset.management_form }}
+          {% for form in formset %}
+            <div class="form-group">
+
+              {% if form.instance.image %}
+                <img src="{{ form.instance.image.url }}" alt="Product Image" style="width: 30%; margin: 1rem">
+              {% endif %}
+
+              {{ form.image }}
+              {{ form.is_active.label_tag }}
+              {{ form.is_active }}
+              {{ form.id }}
+              {{ form.product }}
+
+
+              <div style="margin-top: 20px;"></div>
+
+              <!-- Display uploaded_at -->
+              {% if form.instance.uploaded_at %}
+                <p class="small text-secondary">Uploaded at: {{ form.instance.uploaded_at }}</p>
+              {% endif %}
+              <!-- Display modified_at if it's different from uploaded_at -->
+              {% if form.instance.modified_at|date:"i" != form.instance.uploaded_at|date:"i" %}
+                <p class="small text-secondary">Modified at: {{ form.instance.modified_at }}</p>
+              {% endif %}
+
+              <!-- Display deactivated_at if it's not empty -->
+              {% if form.instance.deactivated_at %}
+                <p class="small text-secondary">Deactivated at: {{ form.instance.deactivated_at }}</p>
+              {% endif %}
+
+              <hr style="margin: 10px 0;">
+
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
 {% endblock %}

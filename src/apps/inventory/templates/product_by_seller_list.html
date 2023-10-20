@@ -1,28 +1,36 @@
 {% extends "base.html" %}
 
 {% block meta %}
-<title>Product List</title>
+    <title>Product List</title>
 {% endblock meta %}
 
 {% block content %}
-<h1>Product List</h1>
-<form method="get">
-    {{filter.form.as_p}}
-    <button type="submit">Apply Filters</button>
-</form>
-<ul>
-    {% for product in product_list %}
-    <li>
-        <h2>{{ product.name }}</h2>
-        <p>Description: {{ product.description }}</p>
-        <p>Category: {{ product.category }}</p>
-        <p>Price: ${{ product.price }}</p>
-        <p>Available stock: {{ product.stock}}</p>
-        <a href="{% url 'product_edit' category_slug=product.category.slug product_slug=product.slug %}"
-           class="btn btn-outline-primary">Edit</a>
-        <a href="{% url 'product_delete' category_slug=product.category.slug product_slug=product.slug %}"
-           class="btn btn-outline-danger">Delete</a>
-    </li>
-    {% endfor %}
-</ul>
+<div class="container mt-4">
+    <h1>Product List</h1>
+
+    <form method="get" class="mb-4">
+        {{ filter.form.as_p }}
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </form>
+
+    <ul class="list-group">
+        {% for product in product_list %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2>{{ product.name }}</h2>
+                    <div>
+                        <a href="{% url 'product_edit' category_slug=product.category.slug product_slug=product.slug %}"
+                           class="btn btn-outline-primary mr-2">Edit</a>
+                        <a href="{% url 'product_delete' category_slug=product.category.slug product_slug=product.slug %}"
+                           class="btn btn-outline-danger">Delete</a>
+                    </div>
+                </div>
+                <p class="mb-1">Description: {{ product.description }}</p>
+                <p class="mb-1">Category: {{ product.category }}</p>
+                <p class="mb-1">Price: ${{ product.price }}</p>
+                <p class="mb-1">Available stock: {{ product.stock }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock content %}

@@ -7,9 +7,10 @@
 {% block content %}
     <h1>Create Product</h1>
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
+        {{ images_form.as_p }}
         <button type="submit">Create</button>
     </form>
 {% endblock content %}
