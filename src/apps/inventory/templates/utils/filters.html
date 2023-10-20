@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-lg-8 col-md-12 mb-4">
+    <div class="card-body">
+      <form method="get">
+        {{ filter.form.as_p }}
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+      </form>
+    </div>
+  </div>
+  <div class="col-lg-4 d-none d-lg-block">
+    <div class="card-body">
+      <form method="get" class="ordering-form">
+        <div class="form-group">
+          <label for="order_by">Order by:</label>
+          <select id="order_by" name="order_by" class="form-control">
+            <option value="">None</option>
+            <option value="name">Name (A-Z)</option>
+            <option value="-name">Name (Z-A)</option>
+            <option value="price">Price (Low to High)</option>
+            <option value="-price">Price (High to Low)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Apply Order</button>
+      </form>
+    </div>
+  </div>
+</div>

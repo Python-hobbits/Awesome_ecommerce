@@ -1,6 +1,9 @@
 <div class="card mb-4">
   {% if product.active_images.all %}
-    <img src="{{ product.active_images.first.image.url }}" class="card-img-top object-fit-cover" alt="{{ product.name }}">
+    <a href="{% url 'product_detail' product.category.slug product.slug %}">
+      <img src="{{ product.active_images.first.image.url }}" class="card-img-top object-fit-cover" alt="{{ product.name }}">
+    </a>
+
   {% endif %}
   <div class="card-body">
     <h2 class="card-title">
@@ -9,14 +12,14 @@
     <small class="text-body-secondary">{{ product.category.name }}</small>
     <p class="card-text"><strong>${{ product.price }}</strong> </p>
     <div class="d-flex justify-content-between align-items-center">
-     <div class="btn-group">
-      {% if request.user.user_type == "Seller" %}
-        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-        <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-      {% elif request.user.user_type == "Customer" %}
-        <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-      {% endif %}
-    </div>
+
+      <div class="btn-group">
+        {% if request.user.user_type == "Seller" %}
+          <a href="{% url 'product_edit' category_slug=product.category.slug product_slug=product.slug %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+          <a href="{% url 'product_delete' category_slug=product.category.slug product_slug=product.slug %}" class="btn btn-sm btn-outline-danger">Delete</a>
+        {% endif %}
+      </div>
+
       <small class="text-body-secondary">{{ product.seller.username }}</small>
     </div>
   </div>

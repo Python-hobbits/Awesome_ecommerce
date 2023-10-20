@@ -1,36 +1,23 @@
 {% extends "base.html" %}
 
 {% block meta %}
-    <title>Product List</title>
+  <title>My Product List</title>
 {% endblock meta %}
 
 {% block content %}
-<div class="container mt-4">
-    <h1>Product List</h1>
+  <div class="container mt-4">
+    <h1>My Product List</h1>
 
-    <form method="get" class="mb-4">
-        {{ filter.form.as_p }}
-        <button type="submit" class="btn btn-primary">Apply Filters</button>
-    </form>
+    <!-- Filters-->
+    {% include 'utils/filters.html' %}
 
-    <ul class="list-group">
-        {% for product in product_list %}
-            <li class="list-group-item">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h2>{{ product.name }}</h2>
-                    <div>
-                        <a href="{% url 'product_edit' category_slug=product.category.slug product_slug=product.slug %}"
-                           class="btn btn-outline-primary mr-2">Edit</a>
-                        <a href="{% url 'product_delete' category_slug=product.category.slug product_slug=product.slug %}"
-                           class="btn btn-outline-danger">Delete</a>
-                    </div>
-                </div>
-                <p class="mb-1">Description: {{ product.description }}</p>
-                <p class="mb-1">Category: {{ product.category }}</p>
-                <p class="mb-1">Price: ${{ product.price }}</p>
-                <p class="mb-1">Available stock: {{ product.stock }}</p>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+      <!-- Product List -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% for product in product_list %}
+        <div class="col">
+          {% include 'utils/product_card.html' %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
 {% endblock content %}

@@ -3,46 +3,17 @@
 {% block content %}
   <div class="container mt-4">
     <h1>Product List</h1>
+  </div>
 
-    <!-- Filter Form Card -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <form method="get">
-          {{ filter.form.as_p }}
-          <button type="submit" class="btn btn-primary">Apply Filters</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Ordering Form Card -->
-    <div class="card mb-4">
-      <div class="card-body">
-        <form method="get" class="ordering-form">
-          <div class="form-group">
-            <label for="order_by">Order by:</label>
-            <select id="order_by" name="order_by" class="form-control">
-              <option value="">None</option>
-              <option value="name">Name (A-Z)</option>
-              <option value="-name">Name (Z-A)</option>
-              <option value="price">Price (Low to High)</option>
-              <option value="-price">Price (High to Low)</option>
-            </select>
-          </div>
-          <button type="submit" class="btn btn-primary">Apply Order</button>
-        </form>
-      </div>
-    </div>
+    <!-- Filters-->
+    {% include 'utils/filters.html' %}
 
     <!-- Product List -->
-<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-  {% for product in products %}
-    <div class="col">
-      {% include 'utils/product_card.html' %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% for product in products %}
+        <div class="col">
+          {% include 'utils/product_card.html' %}
+        </div>
+      {% endfor %}
     </div>
-  {% endfor %}
-</div>
-
-
 {% endblock %}
-
-
