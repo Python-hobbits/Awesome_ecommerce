@@ -81,7 +81,7 @@ class ProductBySellerListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["product_image"] = ProductImage.objects.filter(is_active=True).first()
+        context["filter"] = self.filterset_class(self.request.GET)
         return context
 
 
