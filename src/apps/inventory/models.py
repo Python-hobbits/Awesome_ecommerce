@@ -37,6 +37,7 @@ class Product(models.Model):
     slug = AutoSlugField(populate_from="name", unique=True)
     is_active = models.BooleanField(default=True)
     stock = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
+    visit_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.name
