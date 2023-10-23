@@ -1,29 +1,38 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, DetailView
 
 from src.apps.user.forms import CustomUserChangeForm, ProfileForm
-from src.apps.user.models import UserProfile, UserAddress
+from src.apps.user.models import UserProfile, UserAddress, User
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     template_name = "user/user_detail.html"
     form_class = CustomUserChangeForm
-    success_url = reverse_lazy("user_detail")
 
     def get_object(self, queryset=None):
-        return self.request.user
+        uuid = self.kwargs.get("uuid")
+        return get_object_or_404(User, uuid=uuid)
+
+    def get_success_url(self):
+        uuid = self.kwargs.get("uuid")
+        return reverse("user_detail", args=[uuid])
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = get_user_model()
     form_class = CustomUserChangeForm
     template_name = "user/user_edit.html"
-    success_url = reverse_lazy("user_detail")
 
     def get_object(self, queryset=None):
-        return self.request.user
+        uuid = self.kwargs.get("uuid")
+        return get_object_or_404(User, uuid=uuid)
+
+    def get_success_url(self):
+        uuid = self.kwargs.get("uuid")
+        return reverse("user_detail", args=[uuid])
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
