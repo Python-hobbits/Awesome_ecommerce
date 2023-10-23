@@ -19,7 +19,10 @@ class User(AbstractUser):
     )
 
     uuid = models.UUIDField(
-        default=uuid.uuid4, editable=False, unique=True, verbose_name="User UUID"
+        default=uuid.uuid4,
+        editable=False,
+        unique=True,
+        verbose_name="User UUID",
     )
 
     class Meta:
