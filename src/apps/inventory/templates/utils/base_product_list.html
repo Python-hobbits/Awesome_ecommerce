@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <h1 class="mb-4"> {% block title %}{% endblock title %}</h1>
+
+  {% block filters %}
+    {% include "utils/filters.html"%}
+  {% endblock filters %}
+
+  {% block object_list %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {% for product in products %}
+        <div class="col">
+          {% include 'utils/product_card.html' %}
+        </div>
+      {% endfor %}
+    </div>
+  {% endblock object_list %}
+
+{% endblock content %}

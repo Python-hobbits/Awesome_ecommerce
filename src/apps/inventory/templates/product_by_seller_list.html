@@ -1,23 +1,6 @@
-{% extends "base.html" %}
+{% extends 'utils/base_product_list.html' %}
 
 {% block title %}
-    My Product List
+  My Product List
 {% endblock title %}
 
-{% block content %}
-  <div class="container mt-4">
-    <h1>My Product List</h1>
-
-    <!-- Filters-->
-    {% include 'utils/filters.html' %}
-
-      <!-- Product List -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-      {% for product in product_list %}
-        <div class="col">
-          {% include 'utils/product_card.html' %}
-        </div>
-      {% endfor %}
-    </div>
-  </div>
-{% endblock content %}
