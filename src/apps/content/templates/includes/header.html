@@ -8,7 +8,7 @@
         </div>
             {% if user.is_authenticated %}
              <div class="col-md-3 text-end">
-                 <a href="{% url 'user_detail' %}" class="btn btn-outline-primary">{{ user.username }}</a>
+                 <a href="{% url 'user_detail' uuid=user.uuid %}" class="btn btn-outline-primary">{{ user.username }}</a>
                  <a href="{% url 'profile_detail' %}" class="btn btn-outline-primary">Profile</a>
                  <a href="{% url 'product_list' %}" class="btn btn-outline-primary">View Products</a>
                  <a href="{% url 'basket:basket_detail' %}" class="btn btn-outline-primary">Basket</a>

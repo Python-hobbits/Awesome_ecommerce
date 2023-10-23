@@ -1,3 +1,4 @@
+import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
@@ -15,6 +16,10 @@ class User(AbstractUser):
         max_length=32,
         choices=UserType.choices,
         default=UserType.ADMIN,
+    )
+
+    uuid = models.UUIDField(
+        default=uuid.uuid4, editable=False, unique=True, verbose_name="User UUID"
     )
 
     class Meta:
