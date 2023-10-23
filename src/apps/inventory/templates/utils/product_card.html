@@ -3,7 +3,6 @@
     <a href="{% url 'product_detail' product.category.slug product.slug %}">
       <img src="{{ product.active_images.first.image.url }}" class="card-img-top object-fit-cover" alt="{{ product.name }}">
     </a>
-
   {% endif %}
   <div class="card-body">
     <h2 class="card-title">

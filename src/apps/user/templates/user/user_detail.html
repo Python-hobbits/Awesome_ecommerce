@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block meta %}
-<title>{{ user.username }} - User Page</title>
-{% endblock meta %}
+{% block title %}
+    User Page
+{% endblock title %}
 
 {% block content %}
-  <h1>{{ user.username }} - User Page</h1>
+  <h1>{{ user.username }}</h1>
 
   <p>Username: {{ user.username }}</p>
   <p>First Name: {{ user.first_name }}</p>
