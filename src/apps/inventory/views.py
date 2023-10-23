@@ -55,7 +55,7 @@ class ProductIsActiveFilter(FilterSet):
     is_active = BooleanFilter(field_name="is_active", label="Is Active")
 
 
-class BaseProductListView(LoginRequiredMixin, ListView):
+class BaseProductListView(ListView):
     model = Product
     paginate_by = 10
     filterset_class = ProductFilter
@@ -105,7 +105,7 @@ class CategoryDetailView(BaseProductListView):
         return context
 
 
-class ProductBySellerListView(BaseProductListView):
+class ProductBySellerListView(LoginRequiredMixin, BaseProductListView):
     template_name = "product_by_seller_list.html"
 
     def get_queryset(self):
