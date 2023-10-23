@@ -1,21 +1,24 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 
 {% block meta %}
-    <meta charset="UTF-8">
     <title>{{ category.name }} - Category Detail</title>
 {% endblock meta %}
 
 {% block content %}
-    <h1>Category: {{ category.name }}</h1>
+  <div class="container mt-4">
+    <h1>{{ category.name }}</h1>
+  </div>
 
-    <p>Description: {{ category.description }}</p>
+    <!-- Filters-->
+  {% include 'utils/filters.html' %}
 
-    <h2>Products in this Category:</h2>
-    <ul>
-        {% for product in products %}
-            <li><a href=>{{ product.name }}</a></li>
-        {% empty %}
-            <li>No products in this category.</li>
-        {% endfor %}
-    </ul>
-{% endblock content %}
+    <!-- Product List -->
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for product in products %}
+      <div class="col">
+        {% include 'utils/product_card.html' %}
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}
+

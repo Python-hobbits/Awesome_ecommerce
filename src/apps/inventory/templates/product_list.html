@@ -1,19 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    {% block meta %}
+    <title>Product List</title>
+{% endblock meta %}
+
   <div class="container mt-4">
     <h1>Product List</h1>
   </div>
 
     <!-- Filters-->
-    {% include 'utils/filters.html' %}
+  {% include 'utils/filters.html' %}
 
     <!-- Product List -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-      {% for product in products %}
-        <div class="col">
-          {% include 'utils/product_card.html' %}
-        </div>
-      {% endfor %}
-    </div>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for product in products %}
+      <div class="col">
+        {% include 'utils/product_card.html' %}
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}
