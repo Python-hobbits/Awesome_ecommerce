@@ -9,13 +9,9 @@ from src.apps.user.models import UserProfile, UserAddress
 
 class UserDetailView(LoginRequiredMixin, DetailView):
     template_name = "user/user_detail.html"
-    form_class = CustomUserChangeForm
     model = get_user_model()
     slug_field = "uuid"
     slug_url_kwarg = "uuid"
-
-    def get_success_url(self):
-        return reverse("user_detail", args=[self.object.uuid])
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
