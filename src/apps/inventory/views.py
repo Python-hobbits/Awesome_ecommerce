@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
-from django_filters import FilterSet, CharFilter, ModelChoiceFilter
+from django_filters import FilterSet, CharFilter, ModelChoiceFilter, BooleanFilter
 
 from src.apps.inventory.forms import ProductForm, ProductImageForm
 from src.apps.inventory.models import Product, Category, ProductImage
@@ -21,18 +21,6 @@ class ProductDetailView(DetailView):
         category = get_object_or_404(Category, slug=category_slug)
         queryset = Product.objects.filter(category=category, is_active=True, stock__gt=0)
         return queryset
-
-
-class CategoryDetailView(DetailView):
-    model = Category
-    template_name = "category_detail.html"
-    context_object_name = "category"
-    slug_url_kwarg = "category_slug"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["products"] = Product.objects.filter(category=self.object)
-        return context
 
 
 class ProductFilter(FilterSet):
@@ -61,54 +49,23 @@ class ProductFilter(FilterSet):
 #
 # class SellerProductFilter(ProductFilter):
 #     stock = CustomBooleanFilter(field_name="stock", label="Stock (In Stock)")
-#
 
 
-class ProductBySellerListView(LoginRequiredMixin, ListView):
+class ProductIsActiveFilter(FilterSet):
+    is_active = BooleanFilter(field_name="is_active", label="Is Active")
+
+
+class BaseProductListView(ListView):
     model = Product
     paginate_by = 10
-    template_name = "product_by_seller_list.html"
     filterset_class = ProductFilter
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
-        return queryset.filter(seller=self.request.user, is_active=True)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["filter"] = self.filterset_class(self.request.GET)
-        return context
-
-
-class DeactivatedProductBySellerListView(LoginRequiredMixin, ListView):
-    model = Product
-    paginate_by = 10
-    template_name = "product_by_seller_list.html"
-    filterset_class = ProductFilter
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
-        return queryset.filter(seller=self.request.user, is_active=False)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["filter"] = self.filterset_class(self.request.GET)
-        return context
-
-
-class ProductListView(ListView):
-    model = Product
-    template_name = "product_list.html"
     context_object_name = "products"
-    filterset_class = ProductFilter
 
     def get_queryset(self):
         queryset = super().get_queryset()
         if self.request.GET:
             queryset = self.filterset_class(self.request.GET, queryset=queryset).qs
-        return queryset.filter(is_active=True, stock__gt=0)
+        return queryset
 
     def get_ordering(self):
         order_by = self.request.GET.get("order_by")
@@ -121,6 +78,46 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["filter"] = self.filterset_class(self.request.GET)
+        return context
+
+
+class ProductListView(BaseProductListView):
+    template_name = "product_list.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(is_active=True, stock__gt=0)
+
+
+class CategoryDetailView(BaseProductListView):
+    template_name = "category_detail.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        category_slug = self.kwargs["category_slug"]
+        category = get_object_or_404(Category, slug=category_slug)
+        return queryset.filter(category=category, stock__gt=0)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_slug = self.kwargs["category_slug"]
+        context["category"] = get_object_or_404(Category, slug=category_slug)
+        return context
+
+
+class ProductBySellerListView(LoginRequiredMixin, BaseProductListView):
+    template_name = "product_by_seller_list.html"
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = ProductIsActiveFilter(self.request.GET, queryset=queryset).qs
+        return queryset.filter(seller=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["product_filter"] = ProductIsActiveFilter(
+            self.request.GET, queryset=self.get_queryset(), request=self.request
+        )
         return context
 
 

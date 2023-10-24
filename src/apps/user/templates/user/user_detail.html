@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block meta %}
-<title>User Page</title>
-{% endblock meta %}
+{% block title %}
+    User Page
+{% endblock title %}
 
 {% block content %}
-  <h1>User Detail</h1>
+  <h1>{{ user.username }}</h1>
 
   <p>Username: {{ user.username }}</p>
   <p>First Name: {{ user.first_name }}</p>
@@ -16,10 +16,6 @@
   {% if user.user_type == 'Seller' %}
     <a href="{% url 'product_create' %}" class="btn btn-outline-primary">Add product</a>
     <a href="{% url 'product_by_seller' %}" class="btn btn-outline-primary">My products</a>
-    <a href="{% url 'not_active_product_by_seller' %}" class="btn btn-outline-primary">My not active products</a>
   {% endif %}
-
-
-
 
 {% endblock content %}

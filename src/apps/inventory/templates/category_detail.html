@@ -1,21 +1,5 @@
-{% extends "base.html" %}
+{% extends 'utils/base_product_list.html' %}
 
-{% block meta %}
-    <meta charset="UTF-8">
-    <title>{{ category.name }} - Category Detail</title>
-{% endblock meta %}
-
-{% block content %}
-    <h1>Category: {{ category.name }}</h1>
-
-    <p>Description: {{ category.description }}</p>
-
-    <h2>Products in this Category:</h2>
-    <ul>
-        {% for product in products %}
-            <li><a href=>{{ product.name }}</a></li>
-        {% empty %}
-            <li>No products in this category.</li>
-        {% endfor %}
-    </ul>
-{% endblock content %}
+{% block title %}
+  {{ category }}
+{% endblock title %}

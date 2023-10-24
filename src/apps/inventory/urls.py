@@ -8,16 +8,10 @@ from src.apps.inventory.views import (
     ProductCreateView,
     ProductUpdateView,
     ProductDeleteView,
-    DeactivatedProductBySellerListView,
 )
 
 urlpatterns = [
     path("products/my/", ProductBySellerListView.as_view(), name="product_by_seller"),
-    path(
-        "products/my/not_active",
-        DeactivatedProductBySellerListView.as_view(),
-        name="not_active_product_by_seller",
-    ),
     path("category/<slug:category_slug>/", CategoryDetailView.as_view(), name="category_detail"),
     path(
         "product/<slug:category_slug>/<slug:product_slug>/",
