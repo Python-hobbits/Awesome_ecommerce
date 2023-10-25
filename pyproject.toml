@@ -17,6 +17,7 @@ django-allauth = "^0.57.0"
 django-autoslug = "^1.9.9"
 django-filter = "^23.3"
 pillow = "^10.0.1"
+gunicorn = "^21.2.0"
 
 [tool.black]
 target-version = ['py311']

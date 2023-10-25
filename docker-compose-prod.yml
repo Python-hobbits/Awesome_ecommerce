@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      dockerfile: Dockerfile
+    command: gunicorn src.config.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/home/app/web/static
+      - media_volume:/home/app/web/media
+    expose:
+      - 8000
+    env_file:
+      - ./.env
+    depends_on:
+      - django-migrations
+
+  db:
+    image: "postgres"
+    restart: always
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+
+  django-migrations:
+    restart: on-failure
+    depends_on:
+      - db
+    build: .
+    command: python manage.py migrate
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/home/app/src/static
+      - media_volume:/home/app/src/media
+    ports:
+      - 1337:80
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
