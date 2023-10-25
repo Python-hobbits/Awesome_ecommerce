@@ -38,7 +38,7 @@ services:
       - static_volume:/home/app/src/static
       - media_volume:/home/app/src/media
     ports:
-      - 1337:80
+      - "1337:80"
     depends_on:
       - web
 
