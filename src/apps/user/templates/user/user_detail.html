@@ -12,7 +12,7 @@
   <p>Last Name: {{ user.last_name }}</p>
   <p>Email: {{ user.email }}</p>
   <p>type: {{ user.user_type }}</p>
-  <a href="{% url 'user_edit' %}" class="btn btn-outline-primary">Edit User</a>
+  <a href="{% url 'user_edit' uuid=user.uuid %}" class="btn btn-outline-primary">Edit User</a>
   {% if user.user_type == 'Seller' %}
     <a href="{% url 'product_create' %}" class="btn btn-outline-primary">Add product</a>
     <a href="{% url 'product_by_seller' %}" class="btn btn-outline-primary">My products</a>
