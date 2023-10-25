@@ -21,7 +21,6 @@ class IndexView(TemplateView):
 
             sorted_product_views = sorted(product_views.items(), key=lambda x: x[1], reverse=True)
             sorted_ids = [id[0] for id in sorted_product_views][:3]
-            print(f"Sorted ids {sorted_ids}")
 
             products = Product.objects.filter(id__in=sorted_ids).order_by(
                 Case(*[When(id=id, then=pos) for pos, id in enumerate(sorted_ids)])
