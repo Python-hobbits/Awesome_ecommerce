@@ -1,5 +1,6 @@
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.db.models import F
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -9,6 +10,9 @@ from django_filters import FilterSet, CharFilter, ModelChoiceFilter, BooleanFilt
 
 from src.apps.inventory.forms import ProductForm, ProductImageForm
 from src.apps.inventory.models import Product, Category, ProductImage
+from src.apps.inventory.redis_utils import RedisConnection
+
+redis_conn = RedisConnection()
 
 
 class ProductDetailView(DetailView):
@@ -24,10 +28,17 @@ class ProductDetailView(DetailView):
         return queryset
 
     def get(self, request, *args, **kwargs):
-        if self.request.user.user_type == "Customer":
-            product = self.get_object()
-            product.visit_count = F("visit_count") + 1
-            product.save()
+        product = self.get_object()
+
+        product_view_key = f"product:views:{product.id}"
+        redis_connection = redis_conn.get_connection()
+        redis_connection.incr(product_view_key)
+
+        product_views = {product.id: int(redis_connection.get(product_view_key))}
+
+        all_product_views = json.loads(redis_connection.get("product:views") or "{}")
+        all_product_views.update(product_views)
+        redis_connection.set("product:views", json.dumps(all_product_views))
 
         return super().get(request, *args, **kwargs)
 
@@ -78,7 +89,7 @@ class BaseProductListView(ListView):
 
     def get_ordering(self):
         order_by = self.request.GET.get("order_by")
-        allowed_ordering_fields = ["name", "-name", "price", "-price", "-visit_count"]
+        allowed_ordering_fields = ["name", "-name", "price", "-price"]
 
         if order_by in allowed_ordering_fields:
             return (order_by,)

@@ -1,23 +1,23 @@
-    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-        <div class="col-md-3 mb-2 mb-md-0">
-          <a href="{% url 'index' %}" class="fs-4">Awesome ecommerce</a>
-        </div>
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+    <div class="col-md-3 mb-2 mb-md-0">
+        <a href="{% url 'index' %}" class="fs-4">Awesome ecommerce</a>
+    </div>
 
-        <div class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <div class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
 
+    </div>
+    {% if user.is_authenticated %}
+        <div class="col-md-3 text-end">
+            <a href="{% url 'user_detail' %}" class="btn btn-outline-primary">{{ user.username }}</a>
+            <a href="{% url 'profile_detail' %}" class="btn btn-outline-primary">Profile</a>
+            <a href="{% url 'product_list' %}" class="btn btn-outline-primary">View Products</a>
+            <a href="{% url 'basket:basket_detail' %}" class="btn btn-outline-primary">Basket</a>
+            <a href="{% url 'account_logout' %}" class="btn btn-primary">Logout</a>
         </div>
-            {% if user.is_authenticated %}
-             <div class="col-md-3 text-end">
-                 <a href="{% url 'user_detail' %}" class="btn btn-outline-primary">{{ user.username }}</a>
-                 <a href="{% url 'profile_detail' %}" class="btn btn-outline-primary">Profile</a>
-                 <a href="{% url 'product_list' %}" class="btn btn-outline-primary">View Products</a>
-                 <a href="{% url 'basket:basket_detail' %}" class="btn btn-outline-primary">Basket</a>
-                 <a href="{% url 'account_logout' %}" class="btn btn-primary">Logout</a>
-             </div>
-            {% else %}
-             <div class="col-md-3 text-end">
-                <a href="{% url 'account_login' %}?next=/" class="btn btn-primary">Login</a>
-                <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
-            {% endif %}
-             </div>
+    {% else %}
+        <div class="col-md-3 text-end">
+            <a href="{% url 'account_login' %}?next=/" class="btn btn-primary">Login</a>
+            <a href="{% url 'account_signup' %}" class="btn btn-primary">Sign Up</a>
+    {% endif %}
+</div>
 </header>
