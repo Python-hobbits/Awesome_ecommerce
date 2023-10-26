@@ -52,3 +52,9 @@ class Basket(object):
     def clear(self):
         del self.session[settings.BASKET_SESSION_ID]
         self.session.modified = True
+
+    def get_quantity(self, product):
+        product_id = str(product.id)
+        if product_id in self.basket:
+            return self.basket[product_id]["quantity"]
+        return 0

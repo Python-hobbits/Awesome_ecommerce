@@ -64,6 +64,9 @@ class CheckoutView(LoginRequiredMixin, View):
                         )
                     )
 
+                product.stock -= quantity
+                product.save()
+
                 OrderProduct.objects.bulk_create(order_products)
 
                 delivery_method = delivery_option_form.save(commit=False)

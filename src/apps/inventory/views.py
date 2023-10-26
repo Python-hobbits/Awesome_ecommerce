@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
@@ -19,8 +20,14 @@ class ProductDetailView(DetailView):
     def get_queryset(self):
         category_slug = self.kwargs.get("category_slug")
         category = get_object_or_404(Category, slug=category_slug)
-        queryset = Product.objects.filter(category=category, is_active=True, stock__gt=0)
+        queryset = Product.objects.filter(category=category, is_active=True)
         return queryset
+
+    def get(self, request, *args, **kwargs):
+        product = self.get_object()
+        if product.stock == 0:
+            messages.error(self.request, "Out of stock")
+        return super().get(request, *args, **kwargs)
 
 
 class ProductFilter(FilterSet):
@@ -28,6 +35,7 @@ class ProductFilter(FilterSet):
     category = ModelChoiceFilter(
         field_name="category", queryset=Category.objects.all(), label="Category"
     )
+    in_stock = BooleanFilter(field_name="in_stock", label="In Stock")
 
     class Meta:
         model = Product
@@ -86,7 +94,7 @@ class ProductListView(BaseProductListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(is_active=True, stock__gt=0)
+        return queryset.filter(is_active=True)
 
 
 class CategoryDetailView(BaseProductListView):
