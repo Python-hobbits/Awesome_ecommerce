@@ -29,7 +29,9 @@ def basket_add(request, product_id):
 
         if product.stock < cd["quantity"] or product.stock < total_quantity:
             messages.error(
-                request, f"Insufficient quantity of goods in stock. Available {product.stock}"
+                request,
+                f"Insufficient quantity of goods in stock. Available {product.stock}."
+                f" You have already added {basket.get_quantity(product)}",
             )
         else:
             basket.add(product=product, quantity=cd["quantity"], update_quantity=cd["update"])
