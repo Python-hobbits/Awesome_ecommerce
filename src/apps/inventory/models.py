@@ -1,9 +1,9 @@
-from autoslug import AutoSlugField
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from autoslug import AutoSlugField
 
 
 class Category(models.Model):
@@ -37,11 +37,17 @@ class Product(models.Model):
     slug = AutoSlugField(populate_from="name", unique=True)
     is_active = models.BooleanField(default=True)
     stock = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
+    in_stock = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
 
     def save(self, *args, **kwargs):
+        if self.stock > 0:
+            self.in_stock = True
+        else:
+            self.in_stock = False
+
         self.slug = slugify(self.name, self.id)
         super().save(*args, **kwargs)
 

@@ -12,6 +12,15 @@ from src.apps.orders.models import Order, OrderProduct
 
 
 class CheckoutView(LoginRequiredMixin, View):
+    """
+    This class-based view handles the checkout process and order
+    creation when a user submits an order. It checks the validity
+    of delivery and payment method forms, creates an order, and
+    links it to the selected delivery and payment methods. Additionally,
+    it updates the stock of products in the order and clears the user's
+    shopping basket.
+    """
+
     template_name = "orders/checkout.html"
     product_list_url = reverse_lazy("product_list")
 
@@ -63,6 +72,9 @@ class CheckoutView(LoginRequiredMixin, View):
                             order=order, product_id=product, quantity=quantity, product_price=price
                         )
                     )
+
+                product.stock -= quantity
+                product.save()
 
                 OrderProduct.objects.bulk_create(order_products)
 

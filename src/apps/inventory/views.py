@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
@@ -12,19 +13,33 @@ from src.apps.inventory.models import Product, Category, ProductImage
 
 
 class ProductDetailView(DetailView):
+    """
+    This class-based view displays detailed information about a product,
+    including its name, description, and price.
+    """
+
     model = Product
     template_name = "product_detail.html"
     context_object_name = "product"
     slug_url_kwarg = "product_slug"
 
     def get_queryset(self):
+        """
+        Get a filtered queryset of products based on the associated category.
+        """
         category_slug = self.kwargs.get("category_slug")
         category = get_object_or_404(Category, slug=category_slug)
-        queryset = Product.objects.filter(category=category, is_active=True, stock__gt=0)
+        queryset = Product.objects.filter(category=category, is_active=True)
         return queryset
 
     def get(self, request, *args, **kwargs):
+        """
+        Checks the stock availability of the product. If the product is out of stock,
+        an "Out of stock" message is displayed to the user.
+        """
         product = self.get_object()
+        if product.stock == 0:
+            messages.error(self.request, "Out of stock")
 
         redis = get_redis_connection("redis_cache")
         redis.zincrby("product-views", 1, product.id)
@@ -33,10 +48,18 @@ class ProductDetailView(DetailView):
 
 
 class ProductFilter(FilterSet):
+    """
+    This FilterSet is used for filtering and searching products.
+    It provides filters for product name, category, and stock availability.
+    Additionally, it allows filtering products based on price
+    (less than or greater than).
+    """
+
     name = CharFilter(field_name="name", lookup_expr="icontains", label="Name contains")
     category = ModelChoiceFilter(
         field_name="category", queryset=Category.objects.all(), label="Category"
     )
+    in_stock = BooleanFilter(field_name="in_stock", label="In Stock")
 
     class Meta:
         model = Product
@@ -95,7 +118,7 @@ class ProductListView(BaseProductListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset.filter(is_active=True, stock__gt=0)
+        return queryset.filter(is_active=True)
 
 
 class CategoryDetailView(BaseProductListView):

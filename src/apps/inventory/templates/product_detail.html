@@ -1,38 +1,48 @@
 {% extends "base.html" %}
 
 {% block title %}
-    {{ object.name }}
+{{ object.name }}
 {% endblock title %}
 
 {% block content %}
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-6">
-                <!-- Display all product images one below the other -->
-                {% for product_image in object.active_images %}
-                    <img src="{{ product_image.image.url }}" class="img-fluid mb-3" alt="{{ object.name }}">
-                {% endfor %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Display all product images one below the other -->
+            {% for product_image in object.active_images %}
+            <img src="{{ product_image.image.url }}" class="img-fluid mb-3" alt="{{ object.name }}">
+            {% endfor %}
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-between align-items-center">
+                <h1>{{ object.name }}</h1>
+                <p class="fw-bold fs-4">${{ object.price }}</p>
             </div>
-            <div class="col-md-6">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h1>{{ object.name }}</h1>
-                    <p class="fw-bold fs-4">${{ object.price }}</p>
-                </div>
-                <a href="{% url 'category_detail' category_slug=product.category.slug %}" class="text-body-secondary text-decoration-none">{{ product.category.name }}</a>
-                <p>{{ object.description }}</p>
-                <p class="fw-bold">In stock: {{ object.stock }}</p>
+            <a href="{% url 'category_detail' category_slug=product.category.slug %}"
+               class="text-body-secondary text-decoration-none">{{ product.category.name }}</a>
+            <p>{{ object.description }}</p>
+            <p class="fw-bold">In stock: {{ object.stock }}</p>
 
-                <!-- Form for adding the product to the cart -->
-                <form method="post" action="{% url 'basket:basket_add' object.id %}" class="mt-4">
-                    {% csrf_token %}
-                    <div class="d-flex align-items-center">
-                        <div class="form-group me-3">
-                            <input type="number" name="quantity" id="quantity" min="1" value="1" class="form-control">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add to Cart</button>
+            <!-- Form for adding the product to the cart -->
+            <form method="post" action="{% url 'basket:basket_add' object.id %}" class="mt-4">
+                {% csrf_token %}
+                <div class="d-flex align-items-center">
+                    <div class="form-group me-3">
+                        <input type="number" name="quantity" id="quantity" min="1" value="1" class="form-control">
                     </div>
-                </form>
+                    <button type="submit" class="btn btn-primary">Add to Cart</button>
+                </div>
+            </form>
+            {% if messages %}
+            <div class="alert alert-info">
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
             </div>
+            {% endif %}
         </div>
     </div>
+</div>
 {% endblock content %}
