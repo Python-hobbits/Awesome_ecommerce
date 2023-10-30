@@ -26,8 +26,8 @@ class ProductDetailView(DetailView):
     def get(self, request, *args, **kwargs):
         product = self.get_object()
 
-        r = get_redis_connection("default")
-        r.zincrby("product-views", 1, product.id)
+        redis = get_redis_connection("redis_cache")
+        redis.zincrby("product-views", 1, product.id)
 
         return super().get(request, *args, **kwargs)
 

@@ -163,10 +163,13 @@ REDIS_CACHE_DB = env("REDIS_CACHE_DB", default="0")
 
 CACHES = {
     "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    },
+    "redis_cache": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": f"redis://{REDIS_CACHE_HOST}:{REDIS_CACHE_PORT}/{REDIS_CACHE_DB}",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
-    }
+    },
 }
