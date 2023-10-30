@@ -33,7 +33,6 @@ class ProductDetailView(DetailView):
         return queryset
 
     def get(self, request, *args, **kwargs):
-
         """
         Checks the stock availability of the product. If the product is out of stock,
         an "Out of stock" message is displayed to the user.
