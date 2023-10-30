@@ -1,7 +1,9 @@
 from django.views.generic import TemplateView
 
+from src.apps.inventory.mixins import MostViewedProductsMixin
 
-class IndexView(TemplateView):
+
+class IndexView(MostViewedProductsMixin, TemplateView):
     template_name = "content/index.html"
 
 

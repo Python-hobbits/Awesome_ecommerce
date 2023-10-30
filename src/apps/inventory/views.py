@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter, BooleanFilter
+from django_redis import get_redis_connection
 
 from src.apps.inventory.forms import ProductForm, ProductImageForm
 from src.apps.inventory.models import Product, Category, ProductImage
@@ -21,6 +22,14 @@ class ProductDetailView(DetailView):
         category = get_object_or_404(Category, slug=category_slug)
         queryset = Product.objects.filter(category=category, is_active=True, stock__gt=0)
         return queryset
+
+    def get(self, request, *args, **kwargs):
+        product = self.get_object()
+
+        redis = get_redis_connection("redis_cache")
+        redis.zincrby("product-views", 1, product.id)
+
+        return super().get(request, *args, **kwargs)
 
 
 class ProductFilter(FilterSet):

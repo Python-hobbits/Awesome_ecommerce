@@ -31,3 +31,15 @@ services:
       - DB_HOST
     ports:
       - '5432:5432'
+
+  redis:
+    image: "redis:latest"
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - REDIS_CACHE_DB
+      - REDIS_CACHE_HOST
+      - REDIS_CACHE_PORT
+    ports:
+      - "6379:6379"
