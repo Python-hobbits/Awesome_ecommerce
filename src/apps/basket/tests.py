@@ -1,6 +1,8 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.messages import get_messages
+
 
 from src.apps.basket.basket import Basket
 from src.apps.inventory.models import Product, Category
@@ -29,6 +31,9 @@ class BasketAddViewTest(TestCase):
             {"quantity": 5, "update": False},
             HTTP_REFERER="/",
         )
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertTrue(str(messages[0]).startswith(f"Product {self.product.name}"))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Basket(self.client).get_quantity(self.product), initial_quantity + 5)
 
@@ -41,6 +46,9 @@ class BasketAddViewTest(TestCase):
             {"quantity": 11, "update": False},
             HTTP_REFERER="/",
         )
+        messages = list(get_messages(response.wsgi_request))
+
+        self.assertTrue(str(messages[0]).startswith("Insufficient quantity"))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Basket(self.client).get_quantity(self.product), initial_quantity)
 
