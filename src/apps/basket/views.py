@@ -36,7 +36,7 @@ def basket_add(request, product_id):
         else:
             basket.add(product=product, quantity=cd["quantity"], update_quantity=cd["update"])
             messages.success(request, f"Product {product.name} successfully added to cart.")
-
+            basket.save()
     return redirect(request.META.get("HTTP_REFERER"))
 
 

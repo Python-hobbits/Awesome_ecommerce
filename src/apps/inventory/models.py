@@ -1,9 +1,9 @@
-from autoslug import AutoSlugField
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
+from autoslug import AutoSlugField
 
 
 class Category(models.Model):
