@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter, BooleanFilter
+from django_redis import get_redis_connection
 
 from src.apps.inventory.forms import ProductForm, ProductImageForm
 from src.apps.inventory.models import Product, Category, ProductImage
@@ -32,6 +33,7 @@ class ProductDetailView(DetailView):
         return queryset
 
     def get(self, request, *args, **kwargs):
+
         """
         Checks the stock availability of the product. If the product is out of stock,
         an "Out of stock" message is displayed to the user.
@@ -39,6 +41,10 @@ class ProductDetailView(DetailView):
         product = self.get_object()
         if product.stock == 0:
             messages.error(self.request, "Out of stock")
+
+        redis = get_redis_connection("redis_cache")
+        redis.zincrby("product-views", 1, product.id)
+
         return super().get(request, *args, **kwargs)
 
 

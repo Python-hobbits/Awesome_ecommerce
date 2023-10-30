@@ -19,6 +19,7 @@ django-filter = "^23.3"
 pillow = "^10.0.1"
 uuid = "^1.30"
 djhtml = "^3.0.6"
+django-redis = "^5.4.0"
 
 [tool.black]
 target-version = ['py311']

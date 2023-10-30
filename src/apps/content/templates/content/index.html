@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Main
+  Main
 {% endblock title %}
+
+{% block content %}
+  <h1>Top 3 Products</h1>
+
+  <ul class="product-list">
+    {% for product in most_viewed_products %}
+      <li>
+        <strong>Product Name:</strong> {{ product.name }}<br>
+        <strong>Product ID:</strong> {{ product.id }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
