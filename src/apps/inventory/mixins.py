@@ -7,9 +7,14 @@ from src.apps.inventory.models import Product
 from src.config import settings
 
 
-class MostViewedProductsMixin:
+class RedisConnectionMixin:
+    def get_redis_connection(self, db="redis_cache"):
+        return get_redis_connection(db)
+
+
+class MostViewedProductsMixin(RedisConnectionMixin):
     def get_most_viewed_products(self):
-        redis = get_redis_connection("redis_cache")
+        redis = self.get_redis_connection()
         most_viewed_products_ids = redis.zrevrange("product-views", 0, 2)
 
         products = Product.objects.in_bulk(map(int, most_viewed_products_ids))
@@ -26,9 +31,9 @@ class MostViewedProductsMixin:
         return context
 
 
-class LastViewedProductsMixin:
+class LastViewedProductsMixin(RedisConnectionMixin):
     def get_last_viewed_products(self):
-        redis = get_redis_connection("redis_cache")
+        redis = self.get_redis_connection()
         user = self.request.user
         if user.is_authenticated:
             user_key = f"user:{user.uuid}:recentviews"
@@ -50,10 +55,10 @@ class LastViewedProductsMixin:
         return context
 
 
-class ProductViewsCounterMixin:
+class ProductViewsCounterMixin(RedisConnectionMixin):
     def get(self, request, *args, **kwargs):
         product = self.get_object()
-        redis = get_redis_connection("redis_cache")
+        redis = self.get_redis_connection()
 
         # each GET request will increment the product view counter by 1
         redis.zincrby("product-views", 1, product.id)
@@ -61,7 +66,7 @@ class ProductViewsCounterMixin:
         return super().get(request, *args, **kwargs)
 
 
-class LastViewedProductsCounterMixin:
+class LastViewedProductsCounterMixin(RedisConnectionMixin):
     def get(self, request, *args, **kwargs):
         product = self.get_object()
         user = self.request.user
@@ -74,7 +79,7 @@ class LastViewedProductsCounterMixin:
             user_key = f"session:{request.session.session_key}:recentviews"
 
         if user_key:
-            redis = get_redis_connection("redis_cache")
+            redis = self.get_redis_connection()
 
             # add products to sorted set with time in seconds as a score
             redis.zadd(user_key, {product.id: time()})
