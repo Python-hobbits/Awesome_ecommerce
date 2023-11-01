@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from time import time
 
 from django_redis import get_redis_connection
 
@@ -52,6 +53,8 @@ class ProductViewsCounterMixin:
     def get(self, request, *args, **kwargs):
         product = self.get_object()
         redis = get_redis_connection("redis_cache")
+
+        # each GET request will increment the product view counter by 1
         redis.zincrby("product-views", 1, product.id)
 
         return super().get(request, *args, **kwargs)
@@ -69,7 +72,11 @@ class LastViewedProductsCounterMixin:
 
         redis = get_redis_connection("redis_cache")
 
-        view_count = redis.incr(f"{user_key}:counter")
-        redis.zadd(user_key, {product.id: view_count})
+        # add products to sorted set with time in seconds as a score
+        redis.zadd(user_key, {product.id: time()})
+
+        # keep only 10 last viewed products in table
+        num_last_viewed_products = 10
+        redis.zremrangebyrank(user_key, 0, -num_last_viewed_products - 1)
 
         return super().get(request, *args, **kwargs)
