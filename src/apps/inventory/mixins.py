@@ -4,6 +4,7 @@ from time import time
 from django_redis import get_redis_connection
 
 from src.apps.inventory.models import Product
+from src.config import settings
 
 
 class MostViewedProductsMixin:
@@ -65,18 +66,24 @@ class LastViewedProductsCounterMixin:
         product = self.get_object()
         user = self.request.user
 
+        user_key = None
+
         if user.is_authenticated:
             user_key = f"user:{user.uuid}:recentviews"
-        else:
+        elif request.session.session_key is not None:
             user_key = f"session:{request.session.session_key}:recentviews"
 
-        redis = get_redis_connection("redis_cache")
+        if user_key:
+            redis = get_redis_connection("redis_cache")
 
-        # add products to sorted set with time in seconds as a score
-        redis.zadd(user_key, {product.id: time()})
+            # add products to sorted set with time in seconds as a score
+            redis.zadd(user_key, {product.id: time()})
 
-        # keep only 10 last viewed products in table
-        num_last_viewed_products = 10
-        redis.zremrangebyrank(user_key, 0, -num_last_viewed_products - 1)
+            # keep only 10 last viewed products in table
+            num_last_viewed_products = 10
+            redis.zremrangebyrank(user_key, 0, -num_last_viewed_products - 1)
+
+            # delete key once session in over
+            redis.expire(user_key, settings.SESSION_COOKIE_AGE)
 
         return super().get(request, *args, **kwargs)

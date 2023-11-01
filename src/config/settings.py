@@ -174,3 +174,5 @@ CACHES = {
         },
     },
 }
+
+SESSION_COOKIE_AGE = 172800
