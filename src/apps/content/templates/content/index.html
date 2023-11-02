@@ -5,23 +5,10 @@
 {% endblock title %}
 
 {% block content %}
-  <h2>Top 3 Products</h2>
+  <h2>Top Products</h2>
+  {% include "utils/most_viewed_products.html"%}
 
-  <ul class="product-list">
-    {% for product in most_viewed_products %}
-      <li>
-        <strong>Product Name:</strong> {{ product.name }}<br>
-        <strong>Product ID:</strong> {{ product.id }}
-      </li>
-    {% endfor %}
-  </ul>
   <h2>Last Viewed Products</h2>
-  <ul class="product-list">
-    {% for product in last_viewed_products %}
-      <li>
-        <strong>Product Name:</strong> {{ product.name }}<br>
-        <strong>Product ID:</strong> {{ product.id }}
-      </li>
-    {% endfor %}
-  </ul>
+  {% include "utils/last_viewed_products.html"%}
+
 {% endblock %}
