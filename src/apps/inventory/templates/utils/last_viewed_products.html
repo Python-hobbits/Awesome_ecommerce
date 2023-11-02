@@ -1,0 +1,7 @@
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+  {% for product in last_viewed_products %}
+    <div class="col">
+      {% include 'utils/product_card.html' %}
+    </div>
+  {% endfor %}
+</div>

@@ -20,3 +20,8 @@ repos:
       - id: black
         exclude: ^.*\b(migrations)\b.*$
         args: ["--config", "pyproject.toml"]
+
+  - repo: https://github.com/rtts/djhtml
+    rev: main
+    hooks:
+      - id: djhtml
