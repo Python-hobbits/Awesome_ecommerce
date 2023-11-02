@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from time import time
 
 from django_redis import get_redis_connection
@@ -15,13 +14,16 @@ class RedisConnectionMixin:
 class MostViewedProductsMixin(RedisConnectionMixin):
     def get_most_viewed_products(self):
         redis = self.get_redis_connection()
-        most_viewed_products_ids = redis.zrevrange("product-views", 0, 2)
 
-        products = Product.objects.in_bulk(map(int, most_viewed_products_ids))
-        ordered_products = OrderedDict(
-            (int(product_id), products[int(product_id)]) for product_id in most_viewed_products_ids
+        most_viewed_products_ids = redis.zrevrange(
+            "product-views", 0, settings.MOST_VIEWED_PRODUCTS - 1
         )
-        most_viewed_products = list(ordered_products.values())
+        products = Product.objects.in_bulk(most_viewed_products_ids)
+        most_viewed_products = [
+            products[int(product_id)]
+            for product_id in most_viewed_products_ids
+            if int(product_id) in products
+        ]
 
         return most_viewed_products
 
@@ -40,12 +42,15 @@ class LastViewedProductsMixin(RedisConnectionMixin):
         else:
             user_key = f"session:{self.request.session.session_key}:recentviews"
 
-        last_viewed_products_ids = redis.zrevrange(user_key, 0, 2)
-        products = Product.objects.in_bulk(map(int, last_viewed_products_ids))
-        ordered_products = OrderedDict(
-            (int(product_id), products[int(product_id)]) for product_id in last_viewed_products_ids
+        last_viewed_products_ids = redis.zrevrange(
+            user_key, 0, settings.LAST_VIEWED_PRODUCTS_TO_SHOW - 1
         )
-        last_viewed_products = list(ordered_products.values())
+        products = Product.objects.in_bulk(last_viewed_products_ids)
+        last_viewed_products = [
+            products[int(product_id)]
+            for product_id in last_viewed_products_ids
+            if int(product_id) in products
+        ]
 
         return last_viewed_products
 
@@ -85,8 +90,7 @@ class LastViewedProductsCounterMixin(RedisConnectionMixin):
             redis.zadd(user_key, {product.id: time()})
 
             # keep only 10 last viewed products in table
-            num_last_viewed_products = 10
-            redis.zremrangebyrank(user_key, 0, -num_last_viewed_products - 1)
+            redis.zremrangebyrank(user_key, 0, -settings.LAST_VIEWED_PRODUCTS_TO_KEEP - 1)
 
             # delete key once session in over
             redis.expire(user_key, settings.SESSION_COOKIE_AGE)
