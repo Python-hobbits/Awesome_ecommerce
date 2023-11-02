@@ -1,9 +1,9 @@
 from time import time
 
+from django.conf import settings
 from django_redis import get_redis_connection
 
 from src.apps.inventory.models import Product
-from src.config import settings
 
 
 class RedisConnectionMixin:
@@ -12,11 +12,17 @@ class RedisConnectionMixin:
 
 
 class MostViewedProductsMixin(RedisConnectionMixin):
+    most_viewed_products_to_show = None
+
     def get_most_viewed_products(self):
         redis = self.get_redis_connection()
 
+        most_viewed_products_to_show = self.most_viewed_products_to_show
+        if not most_viewed_products_to_show:
+            most_viewed_products_to_show = settings.DEFAULT_MOST_VIEWED_PRODUCTS_TO_SHOW
+
         most_viewed_products_ids = redis.zrevrange(
-            "product-views", 0, settings.MOST_VIEWED_PRODUCTS - 1
+            "product-views", 0, most_viewed_products_to_show - 1
         )
         products = Product.objects.in_bulk(most_viewed_products_ids)
         most_viewed_products = [
@@ -34,6 +40,8 @@ class MostViewedProductsMixin(RedisConnectionMixin):
 
 
 class LastViewedProductsMixin(RedisConnectionMixin):
+    last_viewed_products_to_show = None
+
     def get_last_viewed_products(self):
         redis = self.get_redis_connection()
         user = self.request.user
@@ -42,9 +50,11 @@ class LastViewedProductsMixin(RedisConnectionMixin):
         else:
             user_key = f"session:{self.request.session.session_key}:recentviews"
 
-        last_viewed_products_ids = redis.zrevrange(
-            user_key, 0, settings.LAST_VIEWED_PRODUCTS_TO_SHOW - 1
-        )
+        last_viewed_products_to_show = self.last_viewed_products_to_show
+        if not last_viewed_products_to_show:
+            last_viewed_products_to_show = settings.DEFAULT_LAST_VIEWED_PRODUCTS_TO_SHOW
+
+        last_viewed_products_ids = redis.zrevrange(user_key, 0, last_viewed_products_to_show - 1)
         products = Product.objects.in_bulk(last_viewed_products_ids)
         last_viewed_products = [
             products[int(product_id)]
