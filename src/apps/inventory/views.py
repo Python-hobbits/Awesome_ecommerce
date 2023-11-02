@@ -6,16 +6,18 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter, BooleanFilter
-from django_redis import get_redis_connection
 
 from src.apps.inventory.forms import ProductForm, ProductImageForm
+from src.apps.inventory.mixins import ProductViewsCounterMixin, LastViewedProductsCounterMixin
 from src.apps.inventory.models import Product, Category, ProductImage
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(ProductViewsCounterMixin, LastViewedProductsCounterMixin, DetailView):
     """
     This class-based view displays detailed information about a product,
     including its name, description, and price.
+    ProductViewsCounterMixin counts total views per product.
+    LastViewedProductsCounterMixin records last viewed items per user.
     """
 
     model = Product
@@ -40,9 +42,6 @@ class ProductDetailView(DetailView):
         product = self.get_object()
         if product.stock == 0:
             messages.error(self.request, "Out of stock")
-
-        redis = get_redis_connection("redis_cache")
-        redis.zincrby("product-views", 1, product.id)
 
         return super().get(request, *args, **kwargs)
 
