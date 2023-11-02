@@ -8,7 +8,10 @@
   <h2>Top Products</h2>
   {% include "utils/most_viewed_products.html"%}
 
-  <h2>Last Viewed Products</h2>
-  {% include "utils/last_viewed_products.html"%}
+  {% if last_viewed_products %}
+    <h2>Last Viewed Products</h2>
+
+    {% include "utils/last_viewed_products.html"%}
+  {% endif %}
 
 {% endblock %}
