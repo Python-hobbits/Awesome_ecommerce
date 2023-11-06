@@ -1,15 +1,57 @@
 {% extends "base.html" %}
 
 {% block title %}
-  Edit User
+    Edit User
 {% endblock title %}
 
 {% block content %}
-  <h1>Edit User</h1>
+    <h1>Edit User</h1>
 
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-outline-primary">Save Changes</button>
-  </form>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row">
+            <!-- User Model Form -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            {{ form.as_p }}
+                        </div>
+                    </div>
+                </div>
+
+            <!-- UserProfile Model Form -->
+                {% if profile_form %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                {{ profile_form.as_p }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+
+        <!-- UserAddress Model Form -->
+            {% if address_form %}
+                <div class="row mt-4">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                {{ address_form.as_p }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
 {% endblock %}

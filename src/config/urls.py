@@ -24,7 +24,7 @@ from src.apps.orders.views import ThankYouView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("src.apps.content.urls")),
-    path("accounts/", include("src.apps.user.urls")),
+    path("account/", include("src.apps.user.urls")),
     path("basket/", include("src.apps.basket.urls")),
     path("inventory/", include("src.apps.inventory.urls")),
     path("checkout/", include("src.apps.orders.urls")),
