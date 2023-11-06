@@ -27,14 +27,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if "form" not in context:
-            context["form"] = self.form_class(instance=self.object)
-        if "address_form" not in context:
-            context["address_form"] = self.address_form_class(
-                instance=self.object.user_profile.address
-            )
-        if "profile_form" not in context:
-            context["profile_form"] = self.profile_form_class(instance=self.object.user_profile)
+        context["form"] = self.form_class(instance=self.object)
+        context["address_form"] = self.address_form_class(instance=self.object.user_profile.address)
+        context["profile_form"] = self.profile_form_class(instance=self.object.user_profile)
         return context
 
     def post(self, request, *args, **kwargs):
