@@ -5,17 +5,75 @@
 {% endblock title %}
 
 {% block content %}
-  <h1>{{ user.username }}</h1>
-
-  <p>Username: {{ user.username }}</p>
-  <p>First Name: {{ user.first_name }}</p>
-  <p>Last Name: {{ user.last_name }}</p>
-  <p>Email: {{ user.email }}</p>
-  <p>type: {{ user.user_type }}</p>
-  <a href="{% url 'user_edit' uuid=user.uuid %}" class="btn btn-outline-primary">Edit User</a>
-  {% if user.user_type == 'Seller' %}
-    <a href="{% url 'product_create' %}" class="btn btn-outline-primary">Add product</a>
-    <a href="{% url 'product_by_seller' %}" class="btn btn-outline-primary">My products</a>
-  {% endif %}
-
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="{% if user.user_profile.profile_picture and user.user_profile.profile_picture.url %}{{ user.user_profile.profile_picture.url }}{% else %}data:image/svg+xml,%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 512 512' style='enable-background:new 0 0 512 512;' xml:space='preserve'%3E%3Cg%3E%3Cg%3E%3Cpath d='M437.02,74.981C388.667,26.629,324.38,0,256,0S123.333,26.629,74.98,74.981C26.629,123.333,0,187.62,0,256s26.629,132.667,74.98,181.019C123.333,485.371,187.62,512,256,512s132.667-26.629,181.02-74.981C485.371,388.667,512,324.38,512,256S485.371,123.333,437.02,74.981z M256,482c-66.869,0-127.037-29.202-168.452-75.511C113.223,338.422,178.948,290,256,290c-49.706,0-90-40.294-90-90s40.294-90,90-90s90,40.294,90,90s-40.294,90-90,90c77.052,0,142.777,48.422,168.452,116.489C383.037,452.798,322.869,482,256,482z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E{% endif %}" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">{{ user.username }}</h5>
+            <p class="text-muted mb-1">{{ user.user_type }}</p>
+            <p class="text-muted mb-4">{{ user.user_profile.address}}</p>
+            <div class="d-flex justify-content-center mb-2">
+              <a href="{% url 'user_edit' uuid=user.uuid %}" class="btn btn-primary">Edit User</a>
+              {% if user.user_type == 'Seller' %}
+                <a href="{% url 'product_create' %}" class="btn btn-primary ms-1">Add Product</a>
+                <a href="{% url 'product_by_seller' %}" class="btn btn-primary ms-1">My Products</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Username</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.username }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">First Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.first_name }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Last Name</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.last_name }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Email</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.email }}</p>
+              </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-sm-3">
+                <p class="mb-0">Phone Number</p>
+              </div>
+              <div class="col-sm-9">
+                <p class="text-muted mb-0">{{ user.user_profile.mobile_phone }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock content %}
