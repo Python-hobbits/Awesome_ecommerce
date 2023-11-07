@@ -29,6 +29,7 @@ urlpatterns = [
     path("inventory/", include("src.apps.inventory.urls")),
     path("checkout/", include("src.apps.orders.urls")),
     path("thank_you/<int:order_id>/", ThankYouView.as_view(), name="thank_you"),
+    path("__debug__/", include("debug_toolbar.urls")),
 ]
 
 if settings.DEBUG:

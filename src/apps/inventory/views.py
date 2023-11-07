@@ -4,6 +4,8 @@ from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
 from django_filters import FilterSet, CharFilter, ModelChoiceFilter, BooleanFilter
 
@@ -112,6 +114,7 @@ class BaseProductListView(ListView):
         return context
 
 
+@method_decorator(cache_page(60 * 15, cache="redis_cache"), name="dispatch")
 class ProductListView(BaseProductListView):
     template_name = "product_list.html"
 
