@@ -58,9 +58,18 @@ Make sure you have the following software installed on your machine:
    `REDIS_CACHE_DB` = 0
 
    `REDIS_CACHE_HOST` = localhost (for Win)
+
    `REDIS_CACHE_HOST` = docker.for.mac.localhost (for Mac)
 
    `REDIS_CACHE_PORT` = 6379
+
+   `MINIO_ENDPOINT` = http://127.0.0.1:9000
+
+   `MINIO_ROOT_USER` = minioadmin
+
+   `MINIO_ROOT_PASSWORD` = minioadmin
+
+   `MINIO_BUCKET_NAME` = photos
 
    **For local development remove `DB_HOST` from .env file**
 
