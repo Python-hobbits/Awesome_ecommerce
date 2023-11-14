@@ -6,7 +6,7 @@
 {% endblock title %}
 
 {% block content %}
-    {% cache 900 object using="redis_cache" %}
+    {% cache 900 product object.id using="redis_cache" %}
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-6">
