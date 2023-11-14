@@ -21,9 +21,7 @@ class MostViewedProductsMixin(RedisConnectionMixin):
         if not most_viewed_products_to_show:
             most_viewed_products_to_show = settings.DEFAULT_MOST_VIEWED_PRODUCTS_TO_SHOW
 
-        most_viewed_products_ids = redis.zrevrange(
-            "product-views", 0, most_viewed_products_to_show - 1
-        )
+        most_viewed_products_ids = redis.zrevrange("product-views", 0, most_viewed_products_to_show)
         products = Product.objects.in_bulk(most_viewed_products_ids)
         most_viewed_products = [
             products[int(product_id)]
