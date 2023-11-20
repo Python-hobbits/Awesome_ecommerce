@@ -1,11 +1,11 @@
+from autoslug import AutoSlugField
 from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
-from autoslug import AutoSlugField
 
-from src.config.storage_backends import get_storage, StorageType
+from src.config.storage_backends import get_public_storage
 
 
 class Category(models.Model):
@@ -62,7 +62,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="product_images/", storage=get_storage(StorageType.PUBLIC))
+    image = models.ImageField(upload_to="product_images/", storage=get_public_storage)
     is_active = models.BooleanField(default=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
