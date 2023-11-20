@@ -1,8 +1,11 @@
 import uuid
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from src.config.storage_backends import get_storage, StorageType
 
 
 class User(AbstractUser):
@@ -37,7 +40,12 @@ class User(AbstractUser):
 
 
 class UserProfile(models.Model):
-    profile_picture = models.ImageField(upload_to="profile_pictures/", blank=True, null=True)
+    profile_picture = models.ImageField(
+        upload_to="profile_pictures/",
+        storage=get_storage(StorageType.PRIVATE),
+        blank=True,
+        null=True,
+    )
     address = models.OneToOneField("UserAddress", on_delete=models.SET_NULL, blank=True, null=True)
     mobile_phone = models.CharField(max_length=15, blank=True, null=True)
 

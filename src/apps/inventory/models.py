@@ -5,6 +5,8 @@ from django.urls import reverse
 from django.utils.text import slugify
 from autoslug import AutoSlugField
 
+from src.config.storage_backends import get_storage, StorageType
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -60,7 +62,7 @@ class Product(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="product_images/")
+    image = models.ImageField(upload_to="product_images/", storage=get_storage(StorageType.PUBLIC))
     is_active = models.BooleanField(default=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)

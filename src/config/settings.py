@@ -146,14 +146,14 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
-USE_MINIO = False
+USE_MINIO = env.bool("USE_S3", default=False)
 
 if USE_MINIO:
     # aws/minio settings
-    MINIO_ACCESS_KEY = os.getenv("MINIO_ROOT_USER")
-    MINIO_SECRET_KEY = os.getenv("MINIO_ROOT_PASSWORD")
-    MINIO_BUCKET_NAME = os.getenv("MINIO_BUCKET_NAME")
-    MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT")
+    MINIO_ACCESS_KEY = env("MINIO_ROOT_USER")
+    MINIO_SECRET_KEY = env("MINIO_ROOT_PASSWORD")
+    MINIO_BUCKET_NAME = env("MINIO_BUCKET_NAME")
+    MINIO_ENDPOINT = env("MINIO_ENDPOINT")
     AWS_ACCESS_KEY_ID = MINIO_ACCESS_KEY
     AWS_SECRET_ACCESS_KEY = MINIO_SECRET_KEY
     AWS_STORAGE_BUCKET_NAME = MINIO_BUCKET_NAME
@@ -193,18 +193,25 @@ REDIS_CACHE_HOST = env("REDIS_CACHE_HOST", default="localhost")
 REDIS_CACHE_PORT = env("REDIS_CACHE_PORT", default="6379")
 REDIS_CACHE_DB = env("REDIS_CACHE_DB", default="0")
 
+CACHES_ENABLE = env.bool("CACHES_ENABLE", default=False)
+
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.dummy.DummyCache",
     },
     "redis_cache": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    },
+}
+
+if CACHES_ENABLE:
+    CACHES["redis_cache"] = {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": f"redis://{REDIS_CACHE_HOST}:{REDIS_CACHE_PORT}/{REDIS_CACHE_DB}",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         },
-    },
-}
+    }
 
 SESSION_COOKIE_AGE = 172800
 
