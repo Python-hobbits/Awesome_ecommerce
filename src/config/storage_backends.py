@@ -1,3 +1,4 @@
+import uuid
 from enum import Enum
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -55,27 +56,29 @@ class PrivateMediaStorage(S3Boto3Storage):
     custom_domain = False
 
 
-def get_storage(storage_type):
-    """
-    Get the appropriate storage class based on the specified storage type.
-
-    Parameters:
-    - storage_type (StorageType): The desired storage type.
-
-    Returns:
-    - Storage class: The corresponding storage class based on the storage type.
-
-    Raises:
-    - ValueError: If an unsupported storage type is provided.
-    """
+def get_static_storage():
     if settings.USE_MINIO:
-        if storage_type == StorageType.STATIC:
-            return StaticStorage
-        elif storage_type == StorageType.PUBLIC:
-            return PublicMediaStorage
-        elif storage_type == StorageType.PRIVATE:
-            return PrivateMediaStorage
-        else:
-            raise ValueError("Unsupported storage type")
+        return StaticStorage()
     else:
         return FileSystemStorage()
+
+
+def get_public_storage():
+    if settings.USE_MINIO:
+        return PublicMediaStorage()
+    else:
+        return FileSystemStorage()
+
+
+def get_private_storage():
+    if settings.USE_MINIO:
+        return PrivateMediaStorage()
+    else:
+        return FileSystemStorage()
+
+
+# Generate a UUID and use it as part of the filename
+def profile_picture_path(instance, filename):
+    ext = filename.split(".")[-1]
+    filename = f"{uuid.uuid4()}.{ext}"
+    return f"profile_pictures/{filename}"

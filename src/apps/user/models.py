@@ -6,7 +6,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from src.config.storage_backends import get_storage, StorageType
+from src.config.storage_backends import profile_picture_path, get_private_storage
 
 
 class User(AbstractUser):
@@ -41,16 +41,9 @@ class User(AbstractUser):
 
 
 class UserProfile(models.Model):
-    @staticmethod
-    def profile_picture_path(instance, filename):
-        # Generate a UUID and use it as part of the filename
-        ext = filename.split(".")[-1]
-        filename = f"{uuid.uuid4()}.{ext}"
-        return f"profile_pictures/{filename}"
-
     profile_picture = models.ImageField(
         upload_to=profile_picture_path,
-        storage=get_storage(StorageType.PRIVATE),
+        storage=get_private_storage,
         blank=True,
         null=True,
         validators=[FileExtensionValidator(["jpg", "jpeg", "png"])],
