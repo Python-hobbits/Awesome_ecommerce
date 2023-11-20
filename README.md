@@ -63,6 +63,8 @@ Make sure you have the following software installed on your machine:
 
    `REDIS_CACHE_PORT` = 6379
 
+   `CACHES_ENABLE` = True (if you want to enable cache)
+
    `MINIO_ENDPOINT` = http://127.0.0.1:9000
 
    `MINIO_ROOT_USER` = minioadmin
@@ -70,6 +72,8 @@ Make sure you have the following software installed on your machine:
    `MINIO_ROOT_PASSWORD` = minioadmin
 
    `MINIO_BUCKET_NAME` = photos
+
+   `USE_S3` = True (if you want to use S3 or MinIO)
 
    **For local development remove `DB_HOST` from .env file**
 

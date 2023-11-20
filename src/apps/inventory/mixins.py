@@ -15,6 +15,8 @@ class MostViewedProductsMixin(RedisConnectionMixin):
     most_viewed_products_to_show = None
 
     def get_most_viewed_products(self):
+        if not settings.CACHES_ENABLE:
+            return []
         redis = self.get_redis_connection()
 
         most_viewed_products_to_show = self.most_viewed_products_to_show
@@ -41,6 +43,8 @@ class LastViewedProductsMixin(RedisConnectionMixin):
     last_viewed_products_to_show = None
 
     def get_last_viewed_products(self):
+        if not settings.CACHES_ENABLE:
+            return []
         redis = self.get_redis_connection()
         user = self.request.user
         if user.is_authenticated:
@@ -70,6 +74,8 @@ class LastViewedProductsMixin(RedisConnectionMixin):
 
 class ProductViewsCounterMixin(RedisConnectionMixin):
     def get(self, request, *args, **kwargs):
+        if not settings.CACHES_ENABLE:
+            return super().get(request, *args, **kwargs)
         product = self.get_object()
         redis = self.get_redis_connection()
 
@@ -81,6 +87,8 @@ class ProductViewsCounterMixin(RedisConnectionMixin):
 
 class LastViewedProductsCounterMixin(RedisConnectionMixin):
     def get(self, request, *args, **kwargs):
+        if not settings.CACHES_ENABLE:
+            return super().get(request, *args, **kwargs)
         product = self.get_object()
         user = self.request.user
 
