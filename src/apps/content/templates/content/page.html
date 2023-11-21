@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block meta %}
+  <meta name="description" content="{{ page.meta_description }}">
+  <meta name="robots" content="{% if page.robots_index %}index{% else %}noindex{% endif %}, {% if page.robots_follow %}follow{% else %}nofollow{% endif %}">
+  <link rel="canonical" href="{{ page.canonical_path }}">
+{% endblock meta %}
+
+{% block title %}
+  {{ page.title }}
+{% endblock title %}
+
+{% block content %}
+  <h1>{{ page.title }}</h1>
+  {{ page.context | safe }}
+
+  <p>Page created by {{ page.author.username }} on {{ page.created_on }}</p>
+  <p>Last updated on {{ page.updated_on }}</p>
+
+{% endblock %}

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "src.apps.inventory",
     "src.apps.orders",
     "src.apps.basket",
+    "src.apps.content",
     # Third-party
     "allauth",
     "allauth.account",
