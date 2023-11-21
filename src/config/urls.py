@@ -19,6 +19,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 
+from src.apps.content.views import PageView
 from src.apps.orders.views import ThankYouView
 
 urlpatterns = [
@@ -29,6 +30,7 @@ urlpatterns = [
     path("inventory/", include("src.apps.inventory.urls")),
     path("checkout/", include("src.apps.orders.urls")),
     path("thank_you/<int:order_id>/", ThankYouView.as_view(), name="thank_you"),
+    path("<slug:page_slug>/", PageView.as_view(), name="page"),
 ]
 
 if settings.DEBUG:
